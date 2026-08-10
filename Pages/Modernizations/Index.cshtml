@@ -1,0 +1,145 @@
+@page
+@model BreakdownReport.Pages.Modernizations.IndexModel
+@{
+    ViewData["Title"] = "Модернизация оборудования";
+}
+
+<h2>Модернизация оборудования</h2>
+
+<form method="get" class="mb-3">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-2">
+            <label class="form-label">Статус</label>
+            <select name="Status" class="form-select form-select-sm">
+                <option value="">Все</option>
+                @foreach (var s in Model.Statuses)
+                {
+                    <option value="@s" selected="@(Model.Status == s ? "selected" : null)">@s</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Участок</label>
+            <select name="AreaId" class="form-select form-select-sm">
+                <option value="">Все</option>
+                @foreach (var a in Model.Store.Areas)
+                {
+                    <option value="@a.Id" selected="@(Model.AreaId == a.Id ? "selected" : null)">@a.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Оборудование</label>
+            <select name="EquipmentId" class="form-select form-select-sm">
+                <option value="">Все</option>
+                @foreach (var e in Model.Store.Equipment)
+                {
+                    <option value="@e.Id" selected="@(Model.EquipmentId == e.Id ? "selected" : null)">@e.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Дата создания</label>
+            <input type="date" name="RequiredFrom" value="@Model.RequiredFrom?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Выполнить до</label>
+            <input type="date" name="RequiredTo" value="@Model.RequiredTo?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Подана с</label>
+            <input type="date" name="submittedFrom" value="@Model.SubmittedFrom?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Выполнить до</label>
+            <input type="date" name="submittedTo" value="@Model.SubmittedTo?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">Поиск</label>
+            <input type="text" name="SearchText" value="@Model.SearchText" class="form-control form-control-sm" placeholder="в описании" />
+        </div>
+        <div class="col-12 mt-2">
+            <button type="submit" class="btn btn-sm btn-primary">Найти</button>
+            <a class="btn btn-sm btn-outline-secondary" asp-page="/Modernizations/Index">Сбросить</a>
+            <a class="btn btn-sm btn-success ms-3" asp-page="/Modernizations/Create">+ Новая заявка</a>
+            <a class="btn btn-sm btn-outline-success ms-2"
+               asp-page="/Modernizations/Index" asp-page-handler="Export"
+               asp-route-status="@Model.Status" asp-route-areaId="@Model.AreaId"
+               asp-route-equipmentId="@Model.EquipmentId"
+               asp-route-requiredFrom="@Model.RequiredFrom?.ToString("yyyy-MM-dd")"
+               asp-route-requiredTo="@Model.RequiredTo?.ToString("yyyy-MM-dd")"
+               asp-route-submittedFrom="@Model.SubmittedFrom?.ToString("yyyy-MM-dd")"
+               asp-route-submittedTo="@Model.SubmittedTo?.ToString("yyyy-MM-dd")"
+               asp-route-searchText="@Model.SearchText">📥 Excel</a>
+            <span class="small text-muted ms-3">Найдено: @Model.Items.Count</span>
+        </div>
+    </div>
+</form>
+<!--Панель счетчиков-->
+<div class="mb-2">
+    <span class="badge bg-secondary">Всего: @Model.TotalCount</span>
+    <span class="badge bg-warning text-dark">Ожидает утверждения: @Model.PendingCount</span>
+    <span class="badge bg-secondary">Новые: @Model.NewCount</span>
+    <span class="badge bg-info text-dark">В процессе: @Model.InProgressCount</span>
+    <span class="badge bg-success">Завершённые: @Model.DoneCount</span>
+    <span class="badge bg-danger">Просроченные: @Model.OverdueCount</span>
+</div>
+
+@if (Model.Items.Count == 0)
+{
+    <p class="text-muted">Заявок не найдено.</p>
+}
+else
+{
+    <table class="table table-sm table-bordered align-middle">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Статус</th>
+                <th>Участок</th>
+                <th>Оборудование</th>
+                <th>Краткое описание</th>
+                <th>Требуется</th>
+                <th>Заказчик</th>
+                <th>Инженер</th>
+                <th>Исполнители</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model.Items)
+            {
+                var equip = Model.Store.Equipment.FirstOrDefault(e => e.Id == m.EquipmentId);
+                var area = equip is null ? null : Model.Store.Areas.FirstOrDefault(a => a.Id == equip.AreaId);
+                
+                var approver = Model.Store.Employees.FirstOrDefault(e => e.Id == m.ApproverId);
+                var assignees = string.Join(", ", m.Assignees
+                    .Select(a => Model.Store.Employees.FirstOrDefault(e => e.Id == a.EmployeeId)?.LastName)
+                    .Where(x => !string.IsNullOrEmpty(x)));
+
+                var statusClass = m.Status switch
+                {
+                    "Ожидает утверждения" => "bg-warning text-dark",
+                    "Новая" => "bg-secondary",
+                    "В процессе" => "bg-info text-dark",
+                    "Завершена" => "bg-success text-white",
+                    _ => "bg-secondary text-white"
+                };
+
+                var overdue = m.Status != "Завершена" && m.RequiredDate.Date < DateTime.Today;
+                <tr class="@(overdue ? "table-danger" : "")">
+                    <td><a asp-page="/Modernizations/Details" asp-route-id="@m.Id">@m.Id</a></td>
+                    <td><span class="badge @statusClass">@m.Status</span></td>
+                    <td>@(area?.Name ?? "—")</td>
+                    <td>@(equip?.Name ?? "—")</td>
+                    <td>@m.ShortDescription</td>
+                    <td>@(overdue ? "⚠ " : "")@m.RequiredDate.ToString("dd.MM.yyyy")</td>
+                    <td>@m.Customer</td>
+                    <td>@(approver?.FullName ?? "—")</td>
+                    <td class="small">@assignees</td>
+                    <td><a asp-page="/Modernizations/Edit" asp-route-id="@m.Id" class="btn btn-sm btn-outline-secondary">Ред.</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,149 @@
+﻿@page
+@model BreakdownReport.Pages.Modernizations.ReportsModel
+@{
+    ViewData["Title"] = "Отчёты по модернизациям";
+}
+
+<h2>Отчёты по модернизациям</h2>
+
+<form method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-md-2">
+        <label class="form-label">Требуется с</label>
+        <input type="date" asp-for="From" class="form-control form-control-sm" />
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Требуется по</label>
+        <input type="date" asp-for="To" class="form-control form-control-sm" />
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Подана с</label>
+        <input type="date" asp-for="SubmittedFrom" class="form-control form-control-sm" />
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Подана по</label>
+        <input type="date" asp-for="SubmittedTo" class="form-control form-control-sm" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label">Участок</label>
+        <select asp-for="AreaId" class="form-select form-select-sm">
+            <option value="">Все</option>
+            @foreach (var a in Model.Store.Areas)
+            {
+                <option value="@a.Id">@a.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label">Статус</label>
+        <select asp-for="Status" class="form-select form-select-sm">
+            <option value="">Все</option>
+            @foreach (var s in Model.StatusLabels)
+            {
+                <option value="@s">@s</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button class="btn btn-sm btn-primary">Показать</button>
+        <a class="btn btn-sm btn-outline-secondary" asp-page="/Modernizations/Reports">Сбросить</a>
+        <a class="btn btn-sm btn-outline-success"
+           asp-page="/Modernizations/Reports" asp-page-handler="Export"
+           asp-route-from="@Model.From?.ToString("yyyy-MM-dd")"
+           asp-route-to="@Model.To?.ToString("yyyy-MM-dd")"
+           asp-route-submittedFrom="@Model.SubmittedFrom?.ToString("yyyy-MM-dd")"
+           asp-route-submittedTo="@Model.SubmittedTo?.ToString("yyyy-MM-dd")"
+           asp-route-areaId="@Model.AreaId"
+           asp-route-status="@Model.Status">📥 Excel</a>
+    </div>
+</form>
+
+<div class="row text-center g-2 mb-4">
+    <div class="col"><div class="border rounded p-2"><div class="fs-4">@Model.TotalCount</div><div class="text-muted small">Всего</div></div></div>
+    <div class="col"><div class="border rounded p-2"><div class="fs-4 text-warning">@Model.PendingCount</div><div class="text-muted small">Ожидает утверждения</div></div></div>
+    <div class="col"><div class="border rounded p-2"><div class="fs-4 text-secondary">@Model.NewCount</div><div class="text-muted small">Новые</div></div></div>
+    <div class="col"><div class="border rounded p-2"><div class="fs-4 text-info">@Model.InProgressCount</div><div class="text-muted small">В процессе</div></div></div>
+    <div class="col"><div class="border rounded p-2"><div class="fs-4 text-success">@Model.DoneCount</div><div class="text-muted small">Завершённые</div></div></div>
+    <div class="col"><div class="border rounded p-2"><div class="fs-4 text-danger">@Model.OverdueCount</div><div class="text-muted small">Просроченные</div></div></div>
+    <div class="col"><div class="border rounded p-2"><div class="fs-4">@Model.TotalLabor</div><div class="text-muted small">Трудозатраты, мин</div></div></div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-4"><h5>Динамика по месяцам</h5><canvas id="chartMonths"></canvas></div>
+    <div class="col-md-6 mb-4"><h5>Статусы заявок</h5><canvas id="chartStatus"></canvas></div>
+    <div class="col-md-6 mb-4"><h5>Топ оборудования (клик — список)</h5><canvas id="chartEq"></canvas></div>
+    <div class="col-md-6 mb-4"><h5>По участкам (клик — список)</h5><canvas id="chartArea"></canvas></div>
+    <div class="col-md-6 mb-4"><h5>Загрузка сотрудников, мин</h5><canvas id="chartEmp"></canvas></div>
+</div>
+
+@section Scripts {
+    @* Подключите Chart.js так же, как в «Отчёты» поломок: откройте Pages/Reports.cshtml
+       и скопируйте строку <script src="...chart..."></script>. Если там CDN — оставьте как ниже. *@
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        var L = {
+            months: @Json.Serialize(Model.MonthLabels),
+            monthCounts: @Json.Serialize(Model.MonthCounts),
+            statuses: @Json.Serialize(Model.StatusLabels),
+            statusCounts: @Json.Serialize(Model.StatusCounts),
+            eqLabels: @Json.Serialize(Model.EquipmentLabels),
+            eqCounts: @Json.Serialize(Model.EquipmentCounts),
+            eqIds: @Json.Serialize(Model.EquipmentIds),
+            areaLabels: @Json.Serialize(Model.AreaLabels),
+            areaCounts: @Json.Serialize(Model.AreaCounts),
+            areaIds: @Json.Serialize(Model.AreaIds),
+            empLabels: @Json.Serialize(Model.EmployeeLabels),
+            empMinutes: @Json.Serialize(Model.EmployeeMinutes)
+                };
+
+        // цвет текста под текущую тему (светлая/тёмная)
+        Chart.defaults.color = getComputedStyle(document.body).color || '#333';
+
+        new Chart(document.getElementById('chartMonths'), {
+            type: 'bar',
+            data: { labels: L.months, datasets: [{ label: 'Заявок', data: L.monthCounts, backgroundColor: '#0d6efd' }] },
+            options: { scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        });
+
+        new Chart(document.getElementById('chartStatus'), {
+            type: 'doughnut',
+            data: { labels: L.statuses, datasets: [{ data: L.statusCounts, backgroundColor: ['#ffc107', '#6c757d', '#0dcaf0', '#198754'] }] },
+            options: {
+                onClick: function(e, els) {
+                    if (!els.length) return;
+                    location.href = '/Modernizations/Index?status=' + encodeURIComponent(L.statuses[els[0].index]);
+                }
+            }
+        });
+
+        new Chart(document.getElementById('chartEq'), {
+            type: 'bar',
+            data: { labels: L.eqLabels, datasets: [{ label: 'Заявок', data: L.eqCounts, backgroundColor: '#d63384' }] },
+            options: {
+                indexAxis: 'y',
+                scales: { x: { beginAtZero: true, ticks: { precision: 0 } } },
+                onClick: function(e, els) {
+                    if (!els.length) return;
+                    location.href = '/Modernizations/Index?equipmentId=' + L.eqIds[els[0].index];
+                }
+            }
+        });
+
+        new Chart(document.getElementById('chartArea'), {
+            type: 'bar',
+            data: { labels: L.areaLabels, datasets: [{ label: 'Заявок', data: L.areaCounts, backgroundColor: '#fd7e14' }] },
+            options: {
+                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+                onClick: function(e, els) {
+                    if (!els.length) return;
+                    location.href = '/Modernizations/Index?areaId=' + L.areaIds[els[0].index];
+                }
+            }
+        });
+
+        new Chart(document.getElementById('chartEmp'), {
+            type: 'bar',
+            data: { labels: L.empLabels, datasets: [{ label: 'Минут', data: L.empMinutes, backgroundColor: '#198754' }] },
+            options: { scales: { y: { beginAtZero: true } } }
+        });
+    </script>
+}

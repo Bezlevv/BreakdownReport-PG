@@ -1,0 +1,67 @@
+[
+
+  {
+    "id": 9,
+    "lastName": "Безлепкин",
+    "firstName": "Виталий",
+    "middleName": "Владимирович",
+    "login": "v.bezlepkin",
+    "position": "Admin",
+    "canBeAuthor": true,
+    "aliases": [ "Безлепкин В.В." ]
+  },
+  {
+    "id": 1,
+    "lastName": "Коленченко",
+    "firstName": null,
+    "middleName": null,
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": [ "Коленченко С.А." ]
+  },
+  {
+    "id": 2,
+    "lastName": "Жуков",
+    "firstName": null,
+    "middleName": null,
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": [ "Жуков А.А." ]
+  },
+  {
+    "id": 3,
+    "lastName": "Ахметов",
+    "firstName": null,
+    "middleName": null,
+    "position": null,
+    "canBeAuthor": false,
+    "aliases": [ "Ахметиов" ]
+  },
+  {
+    "id": 4,
+    "lastName": "Тюкало",
+    "firstName": null,
+    "middleName": null,
+    "position": null,
+    "canBeAuthor": false,
+    "aliases": []
+  },
+  {
+    "id": 5,
+    "lastName": "Назаров",
+    "firstName": null,
+    "middleName": null,
+    "position": null,
+    "canBeAuthor": false,
+    "aliases": []
+  },
+  {
+    "id": 6,
+    "lastName": "Хмелев",
+    "firstName": null,
+    "middleName": null,
+    "position": null,
+    "canBeAuthor": false,
+    "aliases": []
+  }
+]

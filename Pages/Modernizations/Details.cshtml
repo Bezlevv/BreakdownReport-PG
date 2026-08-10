@@ -1,0 +1,171 @@
+﻿@page
+@model BreakdownReport.Pages.Modernizations.DetailsModel
+@{
+    ViewData["Title"] = $"Заявка на модернизацию №{Model.Item?.Id}";
+}
+
+@if (TempData["Warning"] is string w)
+{
+    <div class="alert alert-warning">@w</div>
+}
+
+@if (Model.Item is null)
+{
+    <p>Заявка не найдена.</p>
+}
+else
+{
+    var equip = Model.Store.Equipment.FirstOrDefault(e => e.Id == Model.Item.EquipmentId);
+    var area = equip is null ? null : Model.Store.Areas.FirstOrDefault(a => a.Id == equip.AreaId);
+    var approver = Model.Store.Employees.FirstOrDefault(e => e.Id == Model.Item.ApproverId);
+    var author = Model.Store.Employees.FirstOrDefault(e => e.Id == Model.Item.AuthorId);
+
+    <h2>Заявка на модернизацию №@Model.Item.Id</h2>
+
+    <table class="table table-sm table-bordered">
+        <tr>
+            <td style="width:260px">Статус</td>
+            <td>
+                @if (Model.CanApprove)
+                {
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <form method="post" asp-page-handler="Status" class="d-flex gap-2 align-items-center">
+                            <input type="hidden" name="id" value="@Model.Item.Id" />
+                            <select name="status" class="form-select form-select-sm w-auto">
+                                @foreach (var s in Model.Statuses)
+                                {
+                                    <option value="@s" selected="@(Model.Item.Status == s ? "selected" : null)">@s</option>
+                                }
+                            </select>
+                            <button class="btn btn-sm btn-outline-primary">Сменить</button>
+                        </form>
+                        @if (Model.Item.Status == "Ожидает утверждения")
+                        {
+                            <form method="post" asp-page-handler="Approve" class="d-inline">
+                                <input type="hidden" name="id" value="@Model.Item.Id" />
+                                <button class="btn btn-sm btn-success">✔ Утвердить</button>
+                            </form>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">@Model.Item.Status</span>
+                    <span class="small text-muted ms-2">менять статус может только инженер</span>
+                }
+            </td>
+        </tr>
+        <tr><td>Участок</td><td>@(area?.Name ?? "—")</td></tr>
+        <tr><td>Оборудование</td><td>@(equip?.Name ?? "—")</td></tr>
+        <tr><td>Заказчик</td><td>@Model.Item.Customer</td></tr>
+        <tr><td>Краткое описание</td><td>@Model.Item.ShortDescription</td></tr>
+        <tr><td>Полное описание</td><td style="white-space:pre-wrap">@Model.Item.DetailedDescription</td></tr>
+        <tr><td>Необходимая дата</td><td>@Model.Item.RequiredDate.ToString("dd.MM.yyyy HH:mm")</td></tr>
+        <tr><td>Инженер, согласовавший заявку</td><td>@(approver?.FullName ?? "—")</td></tr>
+        <tr><td>Автор и дата подачи</td><td>@(author?.FullName ?? "—"), @Model.Item.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td></tr>
+        <tr><td>Назначенные сотрудники</td><td>@string.Join(", ", Model.Item.Assignees.Select(a => Model.EmployeeName(a.EmployeeId)))</td></tr>
+        <tr>
+            <td>Трудозатраты</td>
+            <td>
+                @if (Model.Item.LaborEntries.Count == 0)
+                {
+                    <span>—</span>
+                }
+                else
+                {
+                    @string.Join("; ", Model.Item.LaborEntries
+                        .Select(l => $"{Model.EmployeeName(l.EmployeeId)} — {l.Minutes} мин"))
+                    <b class="ms-2">Итого: @Model.Item.TotalLaborMinutes мин</b>
+                }
+            </td>
+        </tr>
+    </table>
+
+    <h4>Материалы</h4>
+    @if (Model.Item.Materials.Count == 0)
+    {
+        <p class="text-muted">Материалы не указаны.</p>
+    }
+    else
+    {
+        <table class="table table-sm table-bordered" style="max-width:600px">
+            <tr><th>Наименование</th><th>Кол-во</th></tr>
+            @foreach (var m in Model.Item.Materials)
+            {
+                <tr><td>@m.Name</td><td>@m.Qty</td></tr>
+            }
+        </table>
+    }
+
+    <h4>Вложения</h4>
+    @foreach (var f in Model.Attachments)
+    {
+        <div class="mb-1">
+            <a href="/attachments-mod/@Model.Item.Id/@f" target="_blank">📎 @f</a>
+            @if (Model.IsAdmin)
+            {
+                <form method="post" asp-page-handler="DeleteFile" class="d-inline">
+                    <input type="hidden" name="id" value="@Model.Item.Id" />
+                    <input type="hidden" name="fileName" value="@f" />
+                    <button class="btn btn-sm btn-outline-danger">✕</button>
+                </form>
+            }
+        </div>
+    }
+    <form method="post" asp-page-handler="Upload" enctype="multipart/form-data" class="mt-2">
+        <input type="hidden" name="id" value="@Model.Item.Id" />
+        <input type="file" name="files" multiple class="form-control form-control-sm d-inline w-auto" />
+        <button class="btn btn-sm btn-outline-secondary ms-2">Прикрепить</button>
+    </form>
+
+    <h4 class="mt-3">Журнал работ</h4>
+    @if (Model.Item.Comments.Count == 0)
+    {
+        <p class="text-muted">Записей пока нет.</p>
+    }
+    else
+    {
+        @foreach (var c in Model.Item.Comments.OrderBy(c => c.At))
+        {
+            <div class="border-start border-3 ps-2 mb-2">
+                <div class="small text-muted">@c.At.ToString("dd.MM.yyyy HH:mm") — @c.AuthorName</div>
+                <div style="white-space:pre-wrap">@c.Text</div>
+            </div>
+        }
+    }
+    <form method="post" asp-page-handler="Comment" class="mt-2">
+        <input type="hidden" name="id" value="@Model.Item.Id" />
+        <textarea name="text" class="form-control form-control-sm" rows="2"
+                  placeholder="Например: ожидаем закупку запчастей, разрабатываем схему подключения, пишем программу PLC…"></textarea>
+        <button class="btn btn-sm btn-outline-primary mt-1">Добавить запись</button>
+    </form>
+
+    <h4 class="mt-3">История изменений</h4>
+    @if (Model.Audit.Count == 0)
+    {
+        <p class="text-muted">Изменений пока нет.</p>
+    }
+    else
+    {
+        <table class="table table-sm table-bordered">
+            <tr><th>Когда</th><th>Кто</th><th>Действие</th><th>Подробности</th></tr>
+            @foreach (var a in Model.Audit)
+            {
+                <tr><td>@a.At.ToString("dd.MM.yyyy HH:mm")</td><td>@a.UserName</td><td>@a.Action</td><td>@a.Details</td></tr>
+            }
+        </table>
+    }
+
+    <div class="mt-3">
+        <a asp-page="/Modernizations/Edit" asp-route-id="@Model.Item.Id" class="btn btn-primary">Редактировать</a>
+        <a asp-page="/Modernizations/Index" class="btn btn-outline-secondary">К списку</a>
+        @if (Model.IsAdmin)
+        {
+            <form method="post" asp-page-handler="Delete" class="d-inline"
+                  onsubmit="return confirm('Удалить заявку и все вложения?');">
+                <input type="hidden" name="id" value="@Model.Item.Id" />
+                <button class="btn btn-outline-danger">Удалить</button>
+            </form>
+        }
+    </div>
+}

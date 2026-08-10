@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "areaId": 1,
+    "name": "Установка водоподготовки",
+    "inventoryNumber": null,
+    "osNumber": null
+  },
+  {
+    "id": 2,
+    "areaId": 1,
+    "name": "Конвейер участка окраски",
+    "inventoryNumber": null,
+    "osNumber": null
+  },
+  {
+    "id": 3,
+    "areaId": 1,
+    "name": "Подъёмник хангов",
+    "inventoryNumber": null,
+    "osNumber": null
+  },
+  {
+    "id": 4,
+    "areaId": 1,
+    "name": "Установка подготовки воздуха",
+    "inventoryNumber": null,
+    "osNumber": null
+  },
+  {
+    "id": 5,
+    "areaId": 1,
+    "name": "Вытяжной вентилятор",
+    "inventoryNumber": null,
+    "osNumber": null
+  },
+  {
+    "id": 6,
+    "areaId": 2,
+    "name": "Подъёмник транспортных осей",
+    "inventoryNumber": null,
+    "osNumber": null
+  },
+  {
+    "id": 7,
+    "areaId": 3,
+    "name": "Весы для грузового автомобиля",
+    "inventoryNumber": null,
+    "osNumber": null
+  }
+]

@@ -1,0 +1,228 @@
+﻿@page
+@model BreakdownReport.Pages.ReportsModel
+
+<h2>Сводные отчёты</h2>
+
+<form method="get">
+    <label>С <input type="date" name="From" value="@Model.From?.ToString("yyyy-MM-dd")" /></label>
+    <label>По <input type="date" name="To" value="@Model.To?.ToString("yyyy-MM-dd")" /></label>
+    <button type="submit">Показать</button>
+    <a href="/Reports">Сбросить</a>
+    <a asp-page="/Reports" asp-page-handler="Export"
+       asp-route-From="@Model.From?.ToString("yyyy-MM-dd")"
+       asp-route-To="@Model.To?.ToString("yyyy-MM-dd")"><b>Скачать .xlsx</b></a>
+</form>
+
+<h3>Общие показатели</h3>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Поломок всего</th>
+        <th>Из них вина третьих лиц</th>
+        <th>Простой линии, мин</th>
+        <th>Простой оборудования, мин</th>
+        <th>Трудозатраты, мин</th>
+    </tr>
+    <tr>
+        <td>@Model.Snapshot.TotalCount</td>
+        <td>@Model.Snapshot.ThirdPartyCount (@(Model.Snapshot.TotalCount > 0 ? Math.Round(100.0 * Model.Snapshot.ThirdPartyCount / Model.Snapshot.TotalCount) : 0)%)</td>
+        <td>@Model.Snapshot.TotalLineDowntime</td>
+        <td>@Model.Snapshot.TotalEquipmentDowntime</td>
+        <td>@Model.Snapshot.TotalLabor</td>
+    </tr>
+</table>
+
+<h3>Динамика по месяцам (последние 12)</h3>
+<p class="small text-muted">Кликните по столбику — откроется список поломок за этот месяц.</p>
+<div style="max-width:900px; height:320px">
+    <canvas id="chartMonths"></canvas>
+</div>
+
+<h3>Топ оборудования по простою линии</h3>
+<div style="max-width:900px; height:320px">
+    <canvas id="chartEquip"></canvas>
+</div>
+
+<h3>Парето: типы поломок (по простою линии)</h3>
+<div style="max-width:900px; height:320px">
+    <canvas id="chartPareto"></canvas>
+</div>
+<table border="1" cellpadding="6">
+    <tr><th>Тип</th><th>Кол-во</th><th>Простой, мин</th><th>Накопленный %</th></tr>
+    @foreach (var p in Model.Pareto)
+    {
+        <tr><td>@p.TypeName</td><td>@p.Count</td><td>@p.LineDowntime</td><td>@p.CumulativePct %</td></tr>
+    }
+</table>
+
+<h3>Надёжность оборудования (MTTR / MTBF)</h3>
+<table border="1" cellpadding="6">
+    <tr><th>Оборудование</th><th>Поломок</th><th>MTTR (средний простой, мин)</th><th>MTBF (дней между поломками)</th></tr>
+    @foreach (var r in Model.Reliability)
+    {
+        <tr><td>@r.EquipmentName</td><td>@r.Count</td><td>@r.MttrMinutes</td><td>@r.MtbfDays</td></tr>
+    }
+</table>
+
+<h3>Распределение по сменам</h3>
+<div style="max-width:900px; height:280px">
+    <canvas id="chartShifts"></canvas>
+</div>
+
+<h3>Повторяющиеся поломки</h3>
+@if (Model.Snapshot.Repeats.Count == 0)
+{
+    <p>Повторов за период нет.</p>
+}
+else
+{
+    <table border="1" cellpadding="6">
+        <tr><th>Описание</th><th>Кол-во</th><th>Суммарный простой линии</th><th>Последний случай</th></tr>
+        @foreach (var r in Model.Snapshot.Repeats)
+        {
+            <tr>
+                <td>@r.Description</td>
+                <td><b>@r.Count</b></td>
+                <td>@r.LineDowntime мин</td>
+                <td>@r.Last.ToString("dd.MM.yyyy HH:mm")</td>
+            </tr>
+        }
+    </table>
+}
+
+<h3>Простои по участкам</h3>
+<table border="1" cellpadding="6">
+    <tr><th>Участок</th><th>Поломок</th><th>Простой линии, мин</th><th>Простой оборудования, мин</th></tr>
+    @foreach (var s in Model.Snapshot.Areas)
+    {
+        <tr><td>@s.AreaName</td><td>@s.Count</td><td>@s.LineDowntime</td><td>@s.EquipmentDowntime</td></tr>
+    }
+</table>
+
+<h3>Простои по оборудованию</h3>
+<table border="1" cellpadding="6">
+    <tr><th>Участок</th><th>Оборудование</th><th>Поломок</th><th>Простой линии, мин</th><th>Простой оборудования, мин</th></tr>
+    @foreach (var s in Model.Snapshot.Equipment)
+    {
+        <tr><td>@s.AreaName</td><td>@s.EquipmentName</td><td>@s.Count</td><td>@s.LineDowntime</td><td>@s.EquipmentDowntime</td></tr>
+    }
+</table>
+
+<h3>Загрузка сотрудников (ремонтная бригада)</h3>
+<table border="1" cellpadding="6">
+    <tr><th>Сотрудник</th><th>Участий в ремонтах</th><th>Суммарные трудозатраты, мин</th></tr>
+    @foreach (var s in Model.Snapshot.Employees)
+    {
+        <tr><td>@s.Name</td><td>@s.Participations</td><td>@s.Minutes</td></tr>
+    }
+</table>
+@section Scripts {
+    <script src="~/lib/chartjs/chart.umd.js"></script>
+    <script>
+        var monthsData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                Model.Monthly.Select(m => new { from = m.From, to = m.To })));
+        new Chart(document.getElementById('chartMonths'), {
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Monthly.Select(m => m.Label))),
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Поломок',
+                        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Monthly.Select(m => m.Count))),
+                        backgroundColor: 'rgba(220,53,69,0.6)'
+                    },
+                    {
+                        type: 'line',
+                        label: 'Простой линии, мин',
+                        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Monthly.Select(m => m.LineDowntime))),
+                        borderColor: 'rgba(13,110,253,1)',
+                        backgroundColor: 'rgba(13,110,253,0.15)',
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        onClick: function (evt, elements) {
+                            if (!elements || !elements.length) return;
+                            var m = monthsData[elements[0].index];
+                            window.location.href = '/Breakdowns?From=' + m.from + '&To=' + m.to;
+                        },
+                        onHover: function (evt, elements) {
+                            evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+                        },
+                        scales: {
+                            y: { beginAtZero: true, ticks: { precision: 0 } },
+                            y1: { position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
+                        }
+                    }
+        });
+
+        new Chart(document.getElementById('chartEquip'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TopEquipment.Select(e => e.EquipmentName))),
+                datasets: [{
+                    label: 'Простой линии, мин',
+                    data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.TopEquipment.Select(e => e.LineDowntime))),
+                    backgroundColor: 'rgba(255,193,7,0.7)'
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { x: { beginAtZero: true } }
+            }
+        });
+
+        new Chart(document.getElementById('chartPareto'), {
+    data: {
+        labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.TypeName))),
+        datasets: [
+            {
+                type: 'bar',
+                label: 'Простой линии, мин',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.LineDowntime))),
+                backgroundColor: 'rgba(220,53,69,0.6)'
+            },
+            {
+                type: 'line',
+                label: 'Накопленный %',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.CumulativePct))),
+                borderColor: 'rgba(13,110,253,1)',
+                yAxisID: 'y1'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: { beginAtZero: true },
+            y1: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false } }
+        }
+    }
+});
+
+new Chart(document.getElementById('chartShifts'), {
+    type: 'bar',
+    data: {
+        labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.Name))),
+        datasets: [
+            {
+                label: 'Поломок',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.Count))),
+                backgroundColor: 'rgba(13,110,253,0.6)'
+            },
+            {
+                label: 'Простой линии, мин',
+                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.LineDowntime))),
+                backgroundColor: 'rgba(255,193,7,0.7)'
+            }
+        ]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+});
+    </script>
+}

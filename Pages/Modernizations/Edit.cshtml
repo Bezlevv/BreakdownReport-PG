@@ -1,0 +1,240 @@
+﻿@page
+@model BreakdownReport.Pages.Modernizations.EditModel
+@{
+    ViewData["Title"] = $"Редактирование заявки №{Model.Input.Id}";
+}
+
+<h2>Редактирование заявки №@Model.Input.Id</h2>
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var err in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <div>@err.ErrorMessage</div>
+        }
+    </div>
+}
+
+<form method="post">
+    <input type="hidden" name="id" value="@Model.Input.Id" />
+    <table class="table table-sm">
+        <tr>
+            <td style="width:260px">Участок *</td>
+            <td>
+                <select id="areaSelect" name="AreaId" class="form-select form-select-sm">
+                    <option value="0">— выберите —</option>
+                    @foreach (var a in Model.Store.Areas)
+                    {
+                        <option value="@a.Id" selected="@(Model.AreaId == a.Id ? "selected" : null)">@a.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Оборудование *</td>
+            <td>
+                <select id="equipmentSelect" asp-for="Input.EquipmentId" class="form-select form-select-sm">
+                    <option value="0">— выберите —</option>
+                    @foreach (var e in Model.Store.Equipment)
+                    {
+                        <option value="@e.Id" data-area="@e.AreaId"
+                                selected="@(Model.Input.EquipmentId == e.Id ? "selected" : null)">@e.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Заказчик *</td>
+            <td><input asp-for="Input.Customer" class="form-control form-control-sm" /></td>
+        </tr>
+        <tr>
+            <td>Краткое описание *</td>
+            <td><input asp-for="Input.ShortDescription" class="form-control form-control-sm" /></td>
+        </tr>
+        <tr>
+            <td>Полное описание</td>
+            <td><textarea asp-for="Input.DetailedDescription" class="form-control form-control-sm" rows="4"></textarea></td>
+        </tr>
+        <tr>
+            <td>Необходимая дата завершения *</td>
+            <td>
+                <input asp-for="Input.RequiredDate" type="datetime-local"
+                       value="@Model.Input.RequiredDate.ToString("yyyy-MM-ddTHH:mm")"
+                       class="form-control form-control-sm" />
+            </td>
+        </tr>
+        <tr>
+            <td>Дата подачи заявки *</td>
+            <td>
+                <input asp-for="Input.CreatedAt" type="datetime-local"
+                       value="@Model.Input.CreatedAt.ToString("yyyy-MM-ddTHH:mm")"
+                       class="form-control form-control-sm" />
+                <div class="form-text">Можно указать задним числом — для заявок, поданных до внедрения системы.</div>
+            </td>
+        </tr>
+            <td>
+                @if (Model.IsApprover)
+                {
+                    <select asp-for="Input.ApproverId" class="form-select form-select-sm">
+                        <option value="0">— выберите —</option>
+                        @foreach (var e in Model.Store.Employees.Where(x => x.IsEngineer || x.IsAdmin))
+                        {
+                            <option value="@e.Id" selected="@(Model.Input.ApproverId == e.Id ? "selected" : null)">@e.FullName</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    var appr = Model.Store.Employees.FirstOrDefault(e => e.Id == Model.Input.ApproverId);
+                    <span>@(appr?.FullName ?? "ещё не назначен")</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @if (Model.IsApprover)
+                {
+                    <select asp-for="Input.Status" class="form-select form-select-sm">
+                        @foreach (var s in Model.Statuses)
+                        {
+                            <option value="@s" selected="@(Model.Input.Status == s ? "selected" : null)">@s</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <span class="badge bg-secondary">@Model.Input.Status</span>
+                    <span class="small text-muted ms-2">статус меняет только инженер</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Материалы</td>
+            <td>
+                <div id="materialsBox">
+                    @for (var i = 0; i < Math.Max(1, Model.Input.Materials.Count); i++)
+                    {
+                        var mat = i < Model.Input.Materials.Count ? Model.Input.Materials[i] : new MaterialItem();
+                        <div class="row g-1 mb-1 material-row">
+                            <div class="col-7">
+                                <input name="Input.Materials[@i].Name" value="@mat.Name" class="form-control form-control-sm" placeholder="Наименование" />
+                            </div>
+                            <div class="col-4">
+                                <input name="Input.Materials[@i].Qty" value="@mat.Qty" class="form-control form-control-sm" placeholder="Кол-во" />
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-sm btn-outline-danger remove-material">✕</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <button type="button" id="addMaterial" class="btn btn-sm btn-outline-secondary mt-1">+ Материал</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Назначенные сотрудники</td>
+            <tr>
+                <td>Трудозатраты, мин</td>
+                <td>
+                    <div class="row g-1">
+                        @foreach (var e in Model.Store.Employees)
+                        {
+                            var minutes = Model.LaborMinutes.TryGetValue(e.Id, out var m) ? m : 0;
+                            <div class="col-md-4 col-sm-6 d-flex align-items-center gap-1">
+                                <input type="number" min="0" name="LaborMinutes[@e.Id]" value="@minutes"
+                                       class="form-control form-control-sm" style="max-width:90px" />
+                                <span class="small">@e.FullName</span>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-text">
+                        Заполняется при закрытии заявки. Минуты можно указать любому сотруднику —
+                        даже тому, кто не назначен на заявку. 0 = не участвовал.
+                    </div>
+                </td>
+            </tr>
+            <td>
+                <div class="row g-1">
+                    @foreach (var e in Model.Store.Employees)
+                    {
+                        var isChecked = Model.AssigneeIds.Contains(e.Id);
+                        <div class="col-md-4 col-sm-6">
+                            <label class="d-flex align-items-center gap-1 small">
+                                <input type="checkbox" name="AssigneeIds" value="@e.Id" @(isChecked ? "checked" : null) />
+                                @e.FullName
+                            </label>
+                        </div>
+                    }
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a asp-page="/Modernizations/Details" asp-route-id="@Model.Input.Id" class="btn btn-outline-secondary ms-2">Отмена</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ----- каскад участок -> оборудование -----
+            var areaSelect = document.getElementById('areaSelect');
+            var equipmentSelect = document.getElementById('equipmentSelect');
+            if (areaSelect && equipmentSelect) {
+                var refreshEquipment = function() {
+                    var areaId = areaSelect.value;
+                    Array.prototype.forEach.call(equipmentSelect.options, function(opt) {
+                        if (opt.value === '0') { opt.hidden = false; return; }
+                        opt.hidden = (opt.getAttribute('data-area') !== areaId);
+                    });
+                    var sel = equipmentSelect.selectedOptions[0];
+                    if (sel && sel.value !== '0' && sel.getAttribute('data-area') !== areaId)
+                        equipmentSelect.value = '0';
+                };
+                areaSelect.addEventListener('change', refreshEquipment);
+                refreshEquipment();
+            }
+
+            // ----- материалы: добавление / удаление / перенумерация -----
+            var materialsBox = document.getElementById('materialsBox');
+            var addBtn = document.getElementById('addMaterial');
+            if (!materialsBox || !addBtn) return;
+
+            var nextIdx = materialsBox.querySelectorAll('.material-row').length;
+
+            function renumber() {
+                var rows = materialsBox.querySelectorAll('.material-row');
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].querySelectorAll('input').forEach(function(inp) {
+                        inp.name = inp.name.replace(/Materials\[\d+\]/, 'Materials[' + i + ']');
+                    });
+                }
+                nextIdx = rows.length;
+            }
+
+            addBtn.addEventListener('click', function() {
+                var row = document.createElement('div');
+                row.className = 'row g-1 mb-1 material-row';
+                row.innerHTML =
+                    '<div class="col-7"><input name="Input.Materials[' + nextIdx + '].Name" class="form-control form-control-sm" placeholder="Наименование" /></div>' +
+                    '<div class="col-4"><input name="Input.Materials[' + nextIdx + '].Qty" class="form-control form-control-sm" placeholder="Кол-во" /></div>' +
+                    '<div class="col-1"><button type="button" class="btn btn-sm btn-outline-danger remove-material">✕</button></div>';
+                materialsBox.appendChild(row);
+                nextIdx++;
+            });
+
+            materialsBox.addEventListener('click', function(e) {
+                var btn = e.target.closest('.remove-material');
+                if (!btn) return;
+                var rows = materialsBox.querySelectorAll('.material-row');
+                if (rows.length > 1) btn.closest('.material-row').remove();
+                else btn.closest('.material-row').querySelectorAll('input')
+                    .forEach(function(i) { i.value = ''; });
+                renumber();
+            });
+        });
+    </script>
+}

@@ -1,0 +1,33 @@
+﻿@page
+@model BreakdownReport.Pages.IndexModel
+
+<div style="text-align:center; margin-top:16px">
+    <img src="~/images/background.jpg" alt="Учёт поломок оборудования"
+         style="max-width:100%; max-height:280px; border-radius:12px" />
+</div>
+
+<h2 class="text-center mt-3">Учёт поломок оборудования</h2>
+
+<div class="d-flex flex-wrap justify-content-center gap-3 my-4">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">Всего поломок</h5>
+            <p class="display-6">@Model.TotalCount</p>
+            <a class="btn btn-primary" asp-page="/Breakdowns/Index">К списку</a>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">За этот месяц</h5>
+            <p class="display-6">@Model.MonthCount</p>
+            <a class="btn btn-success" asp-page="/Breakdowns/Create">Добавить</a>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">Вина третьих лиц</h5>
+            <p class="display-6">@Model.ThirdPartyCount</p>
+            <a class="btn btn-outline-secondary" asp-page="/Reports">Отчёты</a>
+        </div>
+    </div>
+</div>

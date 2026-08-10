@@ -1,0 +1,192 @@
+﻿@page
+@model BreakdownReport.Pages.Breakdowns.CreateModel
+
+
+
+<h2>Новая поломка</h2>
+
+<div asp-validation-summary="All" style="color:red"></div>
+
+<form method="post" enctype="multipart/form-data">
+    <table cellpadding="6">
+        <tr>
+            <td>Автор</td>
+            <td>
+                @if (Model.CurrentUser is not null)
+                {
+                    <b>@Model.CurrentUser.FullName</b> 
+                }
+                else
+                {
+                    <span style="color:red">не выбран — выберите себя в правом верхнем углу</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Дата и время возникновения *</td>
+            <td>
+                <input type="datetime-local" name="Input.OccurredAt"
+                       value="@Model.Input.OccurredAt.ToString("yyyy-MM-ddTHH:mm")" />
+            </td>
+        </tr>
+        <tr>
+            <td>Участок *</td>
+            <td>
+                <select id="areaSelect" name="AreaId">
+                    <option value="0">— выберите —</option>
+                    @foreach (var area in Model.Store.Areas)
+                    {
+                        <option value="@area.Id" selected="@(Model.AreaId == area.Id ? "selected" : null)">@area.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Оборудование *</td>
+            <td>
+                <select id="equipmentSelect" name="Input.EquipmentId">
+                    <option value="0">— выберите —</option>
+                    @foreach (var e in Model.Store.Equipment)
+                    {
+                        <option value="@e.Id" data-area="@e.AreaId"
+                                selected="@(Model.Input.EquipmentId == e.Id ? "selected" : null)">@e.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Тип поломки *</td>
+            <td>
+                <select name="Input.FailureTypeId">
+                    <option value="0">— выберите —</option>
+                    @foreach (var t in Model.Store.FailureTypes)
+                    {
+                        <option value="@t.Id" selected="@(Model.Input.FailureTypeId == t.Id ? "selected" : null)">@t.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Короткое описание *</td>
+            <td><input type="text" size="60" name="Input.ShortDescription" value="@Model.Input.ShortDescription" /></td>
+        </tr>
+        <tr>
+            <td>Подробное описание</td>
+            <td><textarea rows="4" cols="60" name="Input.DetailedDescription">@Model.Input.DetailedDescription</textarea></td>
+        </tr>
+        <tr>
+            <td>Простой линии, мин</td>
+            <td><input type="number" min="0" name="Input.LineDowntimeMinutes" value="@Model.Input.LineDowntimeMinutes" /></td>
+        </tr>
+        <tr>
+            <td>Простой оборудования, мин</td>
+            <td><input type="number" min="0" name="Input.EquipmentDowntimeMinutes" value="@Model.Input.EquipmentDowntimeMinutes" /></td>
+        </tr>
+        <tr>
+            <td>Вина третьих лиц (производство)</td>
+            <td>
+                <input type="checkbox" name="Input.ThirdPartyFault" value="true"
+                       checked="@(Model.Input.ThirdPartyFault ? "checked" : null)" />
+                <input type="hidden" name="Input.ThirdPartyFault" value="false" />
+            </td>
+        </tr>
+        <tr>
+            <td>Ремонтная бригада</td>
+            <td>
+                <select id="crewSelect" style="min-width:220px">
+                    <option value="">— выберите сотрудника —</option>
+                    @foreach (var emp in Model.Store.Employees.Where(e => !Model.IsIncluded(e.Id)))
+                    {
+                        <option value="@emp.Id" data-name="@emp.FullName">@emp.FullName</option>
+                    }
+                </select>
+                <button type="button" id="addCrewBtn">+ В бригаду</button>
+
+                <table id="crewList" style="margin-top:8px">
+                    <thead><tr><th>Сотрудник</th><th>Минут</th><th></th></tr></thead>
+                    <tbody>
+                        @foreach (var emp in Model.Store.Employees.Where(e => Model.IsIncluded(e.Id)))
+                        {
+                            var min = Model.LaborMinutes.TryGetValue(emp.Id, out var m) ? m : 0;
+                            <tr>
+                                <td>@emp.FullName</td>
+                                <td>
+                                    <input type="hidden" name="LaborIncluded[@emp.Id]" value="true" />
+                                    <input type="number" min="0" style="width:6em"
+                                           name="LaborMinutes[@emp.Id]" value="@min" /> мин
+                                </td>
+                                <td>
+                                    <button type="button" class="removeCrew"
+                                            data-empid="@emp.Id" data-name="@emp.FullName">
+                                        ✕
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>Вложения (фото, скриншоты)</td>
+            <td><input type="file" name="files" multiple accept="image/*,.pdf,.xls,.xlsx" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button type="submit">Сохранить</button>
+                <a href="/Breakdowns">Отмена</a>
+            </td>
+        </tr>
+    </table>
+</form>
+
+@section Scripts {
+    <script>
+        var crewSelect = document.getElementById('crewSelect');
+        var crewTbody = document.querySelector('#crewList tbody');
+        var areaSelect = document.getElementById('areaSelect');
+        var equipmentSelect = document.getElementById('equipmentSelect');
+
+        function refreshEquipment() {
+            var areaId = areaSelect.value;
+            Array.prototype.forEach.call(equipmentSelect.options, function (opt) {
+                if (opt.value === '0') { opt.hidden = false; return; }
+                opt.hidden = (opt.getAttribute('data-area') !== areaId);
+            });
+            // если выбранное оборудование не из нового участка — сбрасываем
+            var sel = equipmentSelect.selectedOptions[0];
+            if (sel && sel.value !== '0' && sel.getAttribute('data-area') !== areaId)
+                equipmentSelect.value = '0';
+        }
+
+        areaSelect.addEventListener('change', refreshEquipment);
+        refreshEquipment();
+
+        document.getElementById('addCrewBtn').addEventListener('click', function() {
+            var opt = crewSelect.selectedOptions[0];
+            if (!opt || !opt.value) return;
+            var id = opt.value;
+            var name = opt.getAttribute('data-name') || opt.textContent;
+
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td>' + name + '</td>' +
+                '<td><input type="hidden" name="LaborIncluded[' + id + ']" value="true" /> ' +
+                '<input type="number" min="0" style="width:6em" name="LaborMinutes[' + id + ']" value="0" /> мин</td>' +
+                '<td><button type="button" class="removeCrew" data-empid="' + id + '" data-name="' + name + '">✕</button></td>';
+            crewTbody.appendChild(tr);
+            opt.remove();
+        });
+
+        crewTbody.addEventListener('click', function(e) {
+            var btn = e.target.closest('.removeCrew');
+            if (!btn) return;
+            btn.closest('tr').remove();
+            var opt = document.createElement('option');
+            opt.value = btn.getAttribute('data-empid');
+            opt.textContent = btn.getAttribute('data-name');
+            opt.setAttribute('data-name', btn.getAttribute('data-name'));
+            crewSelect.add(opt);
+        });
+    </script>
+}

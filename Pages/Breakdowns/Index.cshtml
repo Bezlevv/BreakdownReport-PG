@@ -1,0 +1,117 @@
+﻿@page
+@model BreakdownReport.Pages.Breakdowns.IndexModel
+
+<h2>История поломок</h2>
+
+<form method="get">
+    <table cellpadding="4">
+        <tr>
+            <td>С<br /><input type="date" name="From" value="@Model.From?.ToString("yyyy-MM-dd")" /></td>
+            <td>По<br /><input type="date" name="To" value="@Model.To?.ToString("yyyy-MM-dd")" /></td>
+            <td>
+                Участок<br />
+                <select name="AreaId">
+                    <option value="">— все —</option>
+                    @foreach (var a in Model.Store.Areas)
+                    {
+                        <option value="@a.Id" selected="@(Model.AreaId == a.Id ? "selected" : null)">@a.Name</option>
+                    }
+                </select>
+            </td>
+            <td>
+                Оборудование<br />
+                <select name="EquipmentId">
+                    <option value="">— всё —</option>
+                    @foreach (var e in Model.Store.Equipment)
+                    {
+                        <option value="@e.Id" selected="@(Model.EquipmentId == e.Id ? "selected" : null)">
+                            @Model.Store.FindArea(e.AreaId)?.Name — @e.Name
+                        </option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Автор<br />
+                <select name="AuthorId">
+                    <option value="">— все —</option>
+                    @foreach (var e in Model.Store.Employees)
+                    {
+                        <option value="@e.Id" selected="@(Model.AuthorId == e.Id ? "selected" : null)">@e.FullName</option>
+                    }
+                </select>
+            </td>
+            <td>
+                Участник бригады<br />
+                <select name="CrewMemberId">
+                    <option value="">— все —</option>
+                    @foreach (var e in Model.Store.Employees)
+                    {
+                        <option value="@e.Id" selected="@(Model.CrewMemberId == e.Id ? "selected" : null)">@e.FullName</option>
+                    }
+                </select>
+            </td>
+            <td>
+                Вина третьих лиц<br />
+                <select name="FaultFilter">
+                    <option value="" selected="@(Model.FaultFilter is null ? "selected" : null)">— все —</option>
+                    <option value="yes" selected="@(Model.FaultFilter == "yes" ? "selected" : null)">ДА</option>
+                    <option value="no" selected="@(Model.FaultFilter == "no" ? "selected" : null)">нет</option>
+                </select>
+            </td>
+            <td>Поиск<br /><input type="search" name="Search" value="@Model.Search" placeholder="текст описания" /></td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button type="submit">Показать</button>
+                <a href="/Breakdowns">Сбросить</a>
+                <a asp-page="/Breakdowns/Index" asp-page-handler="Export"
+                   asp-route-From="@Model.From?.ToString("yyyy-MM-dd")"
+                   asp-route-To="@Model.To?.ToString("yyyy-MM-dd")"
+                   asp-route-AreaId="@Model.AreaId"
+                   asp-route-EquipmentId="@Model.EquipmentId"
+                   asp-route-AuthorId="@Model.AuthorId"
+                   asp-route-CrewMemberId="@Model.CrewMemberId"
+                   asp-route-FaultFilter="@Model.FaultFilter"
+                   asp-route-Search="@Model.Search">Скачать .xlsx</a>
+                <a href="/Breakdowns/Create" style="float:right"><b>+ Добавить поломку</b></a>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<p>Найдено записей: <b>@Model.Items.Count</b></p>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>Дата</th>
+        <th>Участок</th>
+        <th>Оборудование</th>
+        <th>Короткое описание</th>
+        <th>Простой линии</th>
+        <th>Простой об-я</th>
+        <th>Трудозатраты</th>
+        <th>Вина 3-х лиц</th>
+        <th>Автор</th>
+        <th></th>
+    </tr>
+    @foreach (var b in Model.Items)
+    {
+        <tr>
+            <td>@b.OccurredAt.ToString("dd.MM.yyyy HH:mm")</td>
+            <td>@Model.AreaNameByEquipment(b.EquipmentId)</td>
+            <td>@Model.EquipmentName(b.EquipmentId)</td>
+            <td>@b.ShortDescription</td>
+            <td>@b.LineDowntimeMinutes мин</td>
+            <td>@b.EquipmentDowntimeMinutes мин</td>
+            <td>@b.TotalLaborMinutes мин</td>
+            <td>@(b.ThirdPartyFault ? "ДА" : "нет")</td>
+            <td>@Model.EmployeeName(b.AuthorId)</td>
+            <td>
+                <a asp-page="/Breakdowns/Details" asp-route-id="@b.Id">открыть</a> |
+                <a asp-page="/Breakdowns/Edit" asp-route-id="@b.Id">изменить</a>
+            </td>
+        </tr>
+    }
+</table>

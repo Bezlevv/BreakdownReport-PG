@@ -1,0 +1,118 @@
+﻿@page "{id:int}"
+@model BreakdownReport.Pages.Breakdowns.DetailsModel
+
+@if (Model.Item is null)
+{
+    <p>Запись не найдена.</p>
+}
+else
+{
+    var b = Model.Item;
+    var eq = Model.Store.Equipment.FirstOrDefault(e => e.Id == b.EquipmentId);
+    var area = eq is not null ? Model.Store.FindArea(eq.AreaId) : null;
+    var type = Model.Store.FailureTypes.FirstOrDefault(t => t.Id == b.FailureTypeId);
+
+    <h2>Поломка #@b.Id</h2>
+
+    <table border="1" cellpadding="6">
+        <tr><th>Дата и время возникновения</th><td>@b.OccurredAt.ToString("dd.MM.yyyy HH:mm")</td></tr>
+        <tr><th>Участок</th><td>@(area?.Name ?? "—")</td></tr>
+        <tr><th>Оборудование</th><td>@(eq?.Name ?? "—")</td></tr>
+        <tr><th>Тип поломки</th><td>@(type?.Name ?? "—")</td></tr>
+        <tr><th>Короткое описание</th><td>@b.ShortDescription</td></tr>
+        <tr><th>Подробное описание</th><td>@b.DetailedDescription</td></tr>
+        <tr><th>Простой линии</th><td>@b.LineDowntimeMinutes мин</td></tr>
+        <tr><th>Простой оборудования</th><td>@b.EquipmentDowntimeMinutes мин</td></tr>
+        <tr><th>Вина третьих лиц</th><td>@(b.ThirdPartyFault ? "ДА" : "нет")</td></tr>
+        <tr><th>Автор</th><td>@Model.EmployeeName(b.AuthorId)</td></tr>
+        <tr>
+            <th>Бригада и трудозатраты</th>
+            <td>
+                @if (b.LaborEntries.Count == 0)
+                {
+                    <text>—</text>
+                }
+                else
+                {
+                    <ul>
+                        @foreach (var l in b.LaborEntries)
+                        {
+                            <li>@Model.EmployeeName(l.EmployeeId) — @l.Minutes мин</li>
+                        }
+                    </ul>
+                    <b>Итого: @b.TotalLaborMinutes мин</b>
+                }
+            </td>
+        </tr>
+    </table>
+
+    <h3>Вложения (фото, скриншоты экранов с ошибками)</h3>
+    @if (Model.Attachments.Count == 0)
+    {
+        <p>Вложений нет.</p>
+    }
+    else
+    {
+        <div class="d-flex flex-wrap gap-3 mb-3">
+            @foreach (var name in Model.Attachments)
+            {
+                <div class="text-center border rounded p-2">
+                    <a href="/attachments/@b.Id/@name" target="_blank">
+                        <img src="/attachments/@b.Id/@name" alt="@name"
+                             style="max-height:120px; max-width:180px" />
+                    </a>
+                    <div>
+                        @if (Model.IsAdmin)
+                        {}
+                        <form method="post" asp-page-handler="DeleteFile"
+                              asp-route-id="@b.Id" asp-route-fileName="@name"
+                              onsubmit="return confirm('Удалить вложение?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger mt-1">✕ удалить</button>
+                        </form>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <form method="post" enctype="multipart/form-data"
+          asp-page-handler="Upload" asp-route-id="@b.Id">
+        <input type="file" name="files" multiple accept="image/*,.pdf" />
+        <button type="submit" class="btn btn-sm btn-primary">Прикрепить</button>
+    </form>
+
+    <h3>История изменений</h3>
+        @if (Model.Audit.Count == 0)
+        {
+            <p>Изменений пока не зафиксировано.</p>
+        }
+        else
+        {
+            <table border="1" cellpadding="6">
+                <tr><th>Когда</th><th>Кто</th><th>Действие</th><th>Подробности</th></tr>
+                @foreach (var a in Model.Audit)
+                {
+                    <tr>
+                        <td>@a.At.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>@a.UserName</td>
+                        <td>@a.Action</td>
+                        <td>@a.Details</td>
+                    </tr>
+                }
+            </table>
+        }
+
+    <p class="mt-3">
+        <a href="/Breakdowns">← К списку</a> |
+        <a asp-page="/Breakdowns/Edit" asp-route-id="@b.Id">Изменить</a>
+    </p>
+
+    @if (Model.IsAdmin)
+    {
+    <form method="post" asp-page-handler="Delete" asp-route-id="@b.Id"
+          onsubmit="return confirm('Удалить запись вместе с вложениями?');">
+        <button type="submit" style="color:red">Удалить запись</button>
+    </form>
+    }
+}
