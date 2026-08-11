@@ -161,10 +161,19 @@ app.MapGet("/SetUser", (int userId, string? returnUrl, HttpResponse response) =>
 // Ручной бэкап: создаёт копию и сразу скачивает её
 app.MapGet("/Backup", (BackupMaker maker) =>
 {
-    var path = maker.CreateBackup();
-    return Results.File(path, "application/zip", Path.GetFileName(path));
+    try
+    {
+        var path = maker.CreateBackup();
+        return Results.File(path, "application/zip", Path.GetFileName(path));
+    }
+    catch (Exception ex)
+    {
+        return Results.Text(
+            "Ошибка создания резервной копии: " + ex.Message,
+            "text/plain; charset=utf-8",
+            statusCode: StatusCodes.Status500InternalServerError);
+    }
 });
-
 // Отдача вложений поломок
 app.MapGet("/attachments/{id:int}/{fileName}", (int id, string fileName, AttachmentService attachments) =>
 {
