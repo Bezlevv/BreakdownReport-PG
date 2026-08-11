@@ -1,51 +1,2340 @@
 [
-  {
-    "id": 1,
-    "areaId": 1,
-    "name": "Установка водоподготовки",
-    "inventoryNumber": null,
-    "osNumber": null
-  },
-  {
-    "id": 2,
-    "areaId": 1,
-    "name": "Конвейер участка окраски",
-    "inventoryNumber": null,
-    "osNumber": null
-  },
-  {
-    "id": 3,
-    "areaId": 1,
-    "name": "Подъёмник хангов",
-    "inventoryNumber": null,
-    "osNumber": null
-  },
-  {
-    "id": 4,
-    "areaId": 1,
-    "name": "Установка подготовки воздуха",
-    "inventoryNumber": null,
-    "osNumber": null
-  },
-  {
-    "id": 5,
-    "areaId": 1,
-    "name": "Вытяжной вентилятор",
-    "inventoryNumber": null,
-    "osNumber": null
-  },
-  {
-    "id": 6,
-    "areaId": 2,
-    "name": "Подъёмник транспортных осей",
-    "inventoryNumber": null,
-    "osNumber": null
-  },
-  {
-    "id": 7,
-    "areaId": 3,
-    "name": "Весы для грузового автомобиля",
-    "inventoryNumber": null,
-    "osNumber": null
-  }
+    {
+        "id": 1,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.1 к.1",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 2,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.1 к.2",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 3,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.1 к.3",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 4,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.1 к.4",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 5,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.1 к.5",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 6,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.1 к.6",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 7,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.2 к.1",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 8,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.2 к.2",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 9,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.2 к.3",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 10,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.2 к.4",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 11,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.2 к.5",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 12,
+        "areaId": 3,
+        "name": "Мобильные подъемные колонны ML4030W гр.2 к.6",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 13,
+        "areaId": 3,
+        "name": "Стенд развал схождения линейный TehnoVector 7",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 14,
+        "areaId": 3,
+        "name": "Стенд развал схождения линейный TehnoVector мобильный",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 15,
+        "areaId": 3,
+        "name": "Tecnolux Прибор регулировки света фар MOON",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 16,
+        "areaId": 3,
+        "name": "Дождевальная камера",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 17,
+        "areaId": 3,
+        "name": "Весы для грузового автомобиля",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 18,
+        "areaId": 2,
+        "name": "Комплект подачи консистентной смазки №1",
+        "inventoryNumber": "02-001",
+        "osNumber": ""
+    },
+    {
+        "id": 19,
+        "areaId": 2,
+        "name": "Комплект подачи консистентной смазки №2",
+        "inventoryNumber": "02-002",
+        "osNumber": ""
+    },
+    {
+        "id": 20,
+        "areaId": 2,
+        "name": "Установка для заправки кондиционера",
+        "inventoryNumber": "02-003",
+        "osNumber": ""
+    },
+    {
+        "id": 21,
+        "areaId": 2,
+        "name": "Установка для заправки AdBlue",
+        "inventoryNumber": "02-004",
+        "osNumber": ""
+    },
+    {
+        "id": 22,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №001",
+        "inventoryNumber": "02-101",
+        "osNumber": ""
+    },
+    {
+        "id": 23,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №002",
+        "inventoryNumber": "02-102",
+        "osNumber": ""
+    },
+    {
+        "id": 24,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №003",
+        "inventoryNumber": "02-103",
+        "osNumber": ""
+    },
+    {
+        "id": 25,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №004",
+        "inventoryNumber": "02-104",
+        "osNumber": ""
+    },
+    {
+        "id": 26,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №005",
+        "inventoryNumber": "02-105",
+        "osNumber": ""
+    },
+    {
+        "id": 27,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №006",
+        "inventoryNumber": "02-106",
+        "osNumber": ""
+    },
+    {
+        "id": 28,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №007",
+        "inventoryNumber": "02-107",
+        "osNumber": ""
+    },
+    {
+        "id": 29,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №008",
+        "inventoryNumber": "02-108",
+        "osNumber": ""
+    },
+    {
+        "id": 30,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №009",
+        "inventoryNumber": "02-109",
+        "osNumber": ""
+    },
+    {
+        "id": 31,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №010",
+        "inventoryNumber": "02-110",
+        "osNumber": ""
+    },
+    {
+        "id": 32,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №011",
+        "inventoryNumber": "02-111",
+        "osNumber": ""
+    },
+    {
+        "id": 33,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №012",
+        "inventoryNumber": "02-112",
+        "osNumber": ""
+    },
+    {
+        "id": 34,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №013",
+        "inventoryNumber": "02-113",
+        "osNumber": ""
+    },
+    {
+        "id": 35,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №014",
+        "inventoryNumber": "02-114",
+        "osNumber": ""
+    },
+    {
+        "id": 36,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №015",
+        "inventoryNumber": "02-115",
+        "osNumber": ""
+    },
+    {
+        "id": 37,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №016",
+        "inventoryNumber": "02-116",
+        "osNumber": ""
+    },
+    {
+        "id": 38,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №017",
+        "inventoryNumber": "02-117",
+        "osNumber": ""
+    },
+    {
+        "id": 39,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №018",
+        "inventoryNumber": "02-118",
+        "osNumber": ""
+    },
+    {
+        "id": 40,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №019",
+        "inventoryNumber": "02-119",
+        "osNumber": ""
+    },
+    {
+        "id": 41,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №020",
+        "inventoryNumber": "02-120",
+        "osNumber": ""
+    },
+    {
+        "id": 42,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №021",
+        "inventoryNumber": "02-121",
+        "osNumber": ""
+    },
+    {
+        "id": 43,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №022",
+        "inventoryNumber": "02-122",
+        "osNumber": ""
+    },
+    {
+        "id": 44,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №023",
+        "inventoryNumber": "02-123",
+        "osNumber": ""
+    },
+    {
+        "id": 45,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №024",
+        "inventoryNumber": "02-124",
+        "osNumber": ""
+    },
+    {
+        "id": 46,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №025",
+        "inventoryNumber": "02-125",
+        "osNumber": ""
+    },
+    {
+        "id": 47,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №026",
+        "inventoryNumber": "02-126",
+        "osNumber": ""
+    },
+    {
+        "id": 48,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №027",
+        "inventoryNumber": "02-127",
+        "osNumber": ""
+    },
+    {
+        "id": 49,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №028",
+        "inventoryNumber": "02-128",
+        "osNumber": ""
+    },
+    {
+        "id": 50,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №029",
+        "inventoryNumber": "02-129",
+        "osNumber": ""
+    },
+    {
+        "id": 51,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №030",
+        "inventoryNumber": "02-130",
+        "osNumber": ""
+    },
+    {
+        "id": 52,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №031",
+        "inventoryNumber": "02-131",
+        "osNumber": ""
+    },
+    {
+        "id": 53,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №032",
+        "inventoryNumber": "02-132",
+        "osNumber": ""
+    },
+    {
+        "id": 54,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №033",
+        "inventoryNumber": "02-133",
+        "osNumber": ""
+    },
+    {
+        "id": 55,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №034",
+        "inventoryNumber": "02-134",
+        "osNumber": ""
+    },
+    {
+        "id": 56,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №035",
+        "inventoryNumber": "02-135",
+        "osNumber": ""
+    },
+    {
+        "id": 57,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №036",
+        "inventoryNumber": "02-136",
+        "osNumber": ""
+    },
+    {
+        "id": 58,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №037",
+        "inventoryNumber": "02-137",
+        "osNumber": ""
+    },
+    {
+        "id": 59,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №038",
+        "inventoryNumber": "02-138",
+        "osNumber": ""
+    },
+    {
+        "id": 60,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №039",
+        "inventoryNumber": "02-139",
+        "osNumber": ""
+    },
+    {
+        "id": 61,
+        "areaId": 2,
+        "name": "Тележка сборки шасси №040",
+        "inventoryNumber": "02-140",
+        "osNumber": ""
+    },
+    {
+        "id": 62,
+        "areaId": 2,
+        "name": "Установка по заправке кондиционера SIMAL134 NF22-L",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 63,
+        "areaId": 2,
+        "name": "Установка по заправке кондиционера (Рем зона)",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 64,
+        "areaId": 2,
+        "name": "Установка по заправке ГУР",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 65,
+        "areaId": 2,
+        "name": "Установка по заправке охлаждающей жидкости",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 66,
+        "areaId": 2,
+        "name": "Мультишпиндель",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 67,
+        "areaId": 2,
+        "name": "Штабелер по установке колес",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 68,
+        "areaId": 2,
+        "name": "Пневматический толкатель Easy Mover, 41114",
+        "inventoryNumber": "",
+        "osNumber": "БП-000723"
+    },
+    {
+        "id": 69,
+        "areaId": 2,
+        "name": "Пневматический толкатель Easy Mover, 41115",
+        "inventoryNumber": "",
+        "osNumber": "БП-000724"
+    },
+    {
+        "id": 70,
+        "areaId": 2,
+        "name": "Пневматический толкатель Easy Mover, 41116",
+        "inventoryNumber": "",
+        "osNumber": "БП-000725"
+    },
+    {
+        "id": 71,
+        "areaId": 2,
+        "name": "Пневматический толкатель Easy Mover, 41117",
+        "inventoryNumber": "",
+        "osNumber": "БП-000726"
+    },
+    {
+        "id": 72,
+        "areaId": 2,
+        "name": "Электрический толкатель Easy Mover, 9116",
+        "inventoryNumber": "",
+        "osNumber": "БП-000727"
+    },
+    {
+        "id": 73,
+        "areaId": 2,
+        "name": "Электрический толкатель Easy Mover, 9117",
+        "inventoryNumber": "",
+        "osNumber": "БП-000728"
+    },
+    {
+        "id": 74,
+        "areaId": 2,
+        "name": "Электрический толкатель Easy Mover, 9118",
+        "inventoryNumber": "",
+        "osNumber": "БП-000729"
+    },
+    {
+        "id": 75,
+        "areaId": 2,
+        "name": "Установка по заправке мочевины (AdBlue)",
+        "inventoryNumber": "",
+        "osNumber": "УП-00015675"
+    },
+    {
+        "id": 76,
+        "areaId": 2,
+        "name": "Система сжатого воздуха",
+        "inventoryNumber": "",
+        "osNumber": "ЮНИПАК 500007"
+    },
+    {
+        "id": 77,
+        "areaId": 2,
+        "name": "Подъемник транспортных осей",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 78,
+        "areaId": 2,
+        "name": "ТЗК",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 79,
+        "areaId": 2,
+        "name": "Кран мостовой, 56833, 0,5т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 80,
+        "areaId": 2,
+        "name": "Кран мостовой, 56836, 1,0т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 81,
+        "areaId": 2,
+        "name": "ЛКС, 56223, 160,220, 220 кг",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 82,
+        "areaId": 2,
+        "name": "Кран мостовой, 56194, 3,2т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 83,
+        "areaId": 2,
+        "name": "Кран мостовой, 56192, 3,2т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 84,
+        "areaId": 2,
+        "name": "ЛКС, 56222, 220, 220, 220 кг",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 85,
+        "areaId": 2,
+        "name": "Кран мостовой, 56834",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 86,
+        "areaId": 2,
+        "name": "Кран мостовой, 56835",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 87,
+        "areaId": 2,
+        "name": "Кран мостовой, 56187",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 88,
+        "areaId": 2,
+        "name": "ЛКС, 160 кг",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 89,
+        "areaId": 2,
+        "name": "Кран мостовой, 56193, 3,2т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 90,
+        "areaId": 2,
+        "name": "ЛКС",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 91,
+        "areaId": 2,
+        "name": "Кран мостовой, 56838, 4,0т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 92,
+        "areaId": 2,
+        "name": "Кран мостовой, 56191, 0,5т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 93,
+        "areaId": 2,
+        "name": "Кран мостовой, 56189, 0,5т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 94,
+        "areaId": 2,
+        "name": "Кран мостовой, 56837, 1,6т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 95,
+        "areaId": 2,
+        "name": "Кран мостовой, 12993262, 1,6т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 96,
+        "areaId": 2,
+        "name": "Кран мостовой, 12993264, 1,6т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 97,
+        "areaId": 2,
+        "name": "Кран мостовой, 12993261, 1,6т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 98,
+        "areaId": 2,
+        "name": "Кран мостовой, 12993260, 1,6т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 99,
+        "areaId": 2,
+        "name": "ЛКС, -, 500кг",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 100,
+        "areaId": 2,
+        "name": "Кран мостовой, 12993259, 5,0т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 101,
+        "areaId": 2,
+        "name": "Кран мостовой, 56183, 6,0 т",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 102,
+        "areaId": 4,
+        "name": "Лазерный листорезный станок SEKIRUS",
+        "inventoryNumber": "05-001",
+        "osNumber": "БП-000275"
+    },
+    {
+        "id": 103,
+        "areaId": 4,
+        "name": "Компрессор Remeza, зав.№241202 (Sekirus)",
+        "inventoryNumber": "05-002",
+        "osNumber": "БП-000216"
+    },
+    {
+        "id": 104,
+        "areaId": 4,
+        "name": "ФВУ Евролюкс FCS-4000-04 (Труборез Wattsan)",
+        "inventoryNumber": "05-003",
+        "osNumber": "БП-000458"
+    },
+    {
+        "id": 105,
+        "areaId": 4,
+        "name": "Листогибочный пресс METMAC",
+        "inventoryNumber": "05-004",
+        "osNumber": "БП-000225"
+    },
+    {
+        "id": 106,
+        "areaId": 4,
+        "name": "Сверлильный станок Stalex",
+        "inventoryNumber": "05-005",
+        "osNumber": "БП-000158"
+    },
+    {
+        "id": 107,
+        "areaId": 4,
+        "name": "Шлифовальный станок Hohmann",
+        "inventoryNumber": "05-006",
+        "osNumber": "БП-000397"
+    },
+    {
+        "id": 108,
+        "areaId": 4,
+        "name": "Ленточнопильный станок Pilous",
+        "inventoryNumber": "05-007",
+        "osNumber": "БП-000370"
+    },
+    {
+        "id": 109,
+        "areaId": 4,
+        "name": "Лазерный труборезный станок Wattsan",
+        "inventoryNumber": "05-008",
+        "osNumber": "БП-000456"
+    },
+    {
+        "id": 110,
+        "areaId": 4,
+        "name": "Компрессор Remeza, зав.№260291 (Труборез Wattsan)",
+        "inventoryNumber": "05-009",
+        "osNumber": "БП-000478"
+    },
+    {
+        "id": 111,
+        "areaId": 4,
+        "name": "Вертикальный обрабатывающий центр с ЧПУ Rontek",
+        "inventoryNumber": "05-010",
+        "osNumber": "БП-000445"
+    },
+    {
+        "id": 112,
+        "areaId": 4,
+        "name": "ФВУ LW1209E-110 (Sekirus)",
+        "inventoryNumber": "05-011",
+        "osNumber": "БП-000524"
+    },
+    {
+        "id": 113,
+        "areaId": 4,
+        "name": "Токарный станок с ЧПУ Blin",
+        "inventoryNumber": "05-012",
+        "osNumber": "БП-000668"
+    },
+    {
+        "id": 114,
+        "areaId": 4,
+        "name": "Профилегибочный станок SOCO",
+        "inventoryNumber": "05-013",
+        "osNumber": "БП-000598"
+    },
+    {
+        "id": 115,
+        "areaId": 4,
+        "name": "Листогибочный сервопресс Unimach, сер. №UB-2247",
+        "inventoryNumber": "05-014",
+        "osNumber": "БП-001133"
+    },
+    {
+        "id": 116,
+        "areaId": 4,
+        "name": "Лазерный листорезный станок Wattsan",
+        "inventoryNumber": "05-015",
+        "osNumber": ""
+    },
+    {
+        "id": 117,
+        "areaId": 4,
+        "name": "Компрессор Remeza, зав.№260291 (Листорез Wattsan )",
+        "inventoryNumber": "05-016",
+        "osNumber": ""
+    },
+    {
+        "id": 118,
+        "areaId": 4,
+        "name": "ФВУ \"КАМА 6000\" (Листорез Wattsan)",
+        "inventoryNumber": "05-017",
+        "osNumber": "БП-001380"
+    },
+    {
+        "id": 119,
+        "areaId": 4,
+        "name": "Сверлильный станок ЛСП",
+        "inventoryNumber": "05-018",
+        "osNumber": "БП-001175"
+    },
+    {
+        "id": 120,
+        "areaId": 4,
+        "name": "Токарный станок СТ16К25Б/1000",
+        "inventoryNumber": "05-019",
+        "osNumber": "БП-000749"
+    },
+    {
+        "id": 121,
+        "areaId": 4,
+        "name": "Пресс гидравлический 50т NORDBERG N3651AL, s/n 202411200010021",
+        "inventoryNumber": "05-020",
+        "osNumber": "УП-00013200"
+    },
+    {
+        "id": 122,
+        "areaId": 4,
+        "name": "Лазерный листорезный станок Bodor",
+        "inventoryNumber": "05-021",
+        "osNumber": "БП-001319"
+    },
+    {
+        "id": 123,
+        "areaId": 4,
+        "name": "Компрессор Remeza, зав.№251836 (Bodor)",
+        "inventoryNumber": "05-022",
+        "osNumber": "БП-001317"
+    },
+    {
+        "id": 124,
+        "areaId": 4,
+        "name": "ФВУ LW-S-1209-110 (Bodor)",
+        "inventoryNumber": "05-023",
+        "osNumber": ""
+    },
+    {
+        "id": 125,
+        "areaId": 4,
+        "name": "Листогибочный сервопресс Unimach, сер. №UB-2276",
+        "inventoryNumber": "",
+        "osNumber": "БП-001379"
+    },
+    {
+        "id": 126,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 398494 v3",
+        "inventoryNumber": "06-001",
+        "osNumber": "БП-000473"
+    },
+    {
+        "id": 127,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 398492 v3",
+        "inventoryNumber": "06-002",
+        "osNumber": "БП-000474"
+    },
+    {
+        "id": 128,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 398493 v3",
+        "inventoryNumber": "06-003",
+        "osNumber": "БП-000475"
+    },
+    {
+        "id": 129,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 398491 v3",
+        "inventoryNumber": "06-004",
+        "osNumber": "БП-000476"
+    },
+    {
+        "id": 130,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 398490 v3",
+        "inventoryNumber": "06-005",
+        "osNumber": "БП-000477"
+    },
+    {
+        "id": 131,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 567405",
+        "inventoryNumber": "06-019",
+        "osNumber": "БП-001211"
+    },
+    {
+        "id": 132,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 569441",
+        "inventoryNumber": "06-020",
+        "osNumber": "БП-001200"
+    },
+    {
+        "id": 133,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 569442",
+        "inventoryNumber": "06-021",
+        "osNumber": "БП-001198"
+    },
+    {
+        "id": 134,
+        "areaId": 5,
+        "name": "Передвижной фильтр серии ПМСФ-8, 569444",
+        "inventoryNumber": "06-022",
+        "osNumber": "БП-001199"
+    },
+    {
+        "id": 135,
+        "areaId": 5,
+        "name": "Высоковакуумная фильтровентиляционная установка серии SPV-1900",
+        "inventoryNumber": "06-006",
+        "osNumber": "БП-000222"
+    },
+    {
+        "id": 136,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр с вентилятором серии MDV-6L, 394793 v3",
+        "inventoryNumber": "06-007",
+        "osNumber": "БП-000224"
+    },
+    {
+        "id": 137,
+        "areaId": 5,
+        "name": "Стационарный фильтр ЕВРОЛЮКС, FCS-4000-04, ЕЛГ 2402070",
+        "inventoryNumber": "06-008",
+        "osNumber": "БП-000141"
+    },
+    {
+        "id": 138,
+        "areaId": 5,
+        "name": "Стационарный фильтр ЕВРОЛЮКС, FCS-4000-04, ЕЛГ 2410876",
+        "inventoryNumber": "06-009",
+        "osNumber": "БП-000458"
+    },
+    {
+        "id": 139,
+        "areaId": 5,
+        "name": "Экологическая центральная фильтровентиляционная система SCS-DILUTER, -",
+        "inventoryNumber": "06-010",
+        "osNumber": "БП-000151"
+    },
+    {
+        "id": 140,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-6L, 504643 v8",
+        "inventoryNumber": "06-011",
+        "osNumber": "БП-001020"
+    },
+    {
+        "id": 141,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-6R, 504642 v8",
+        "inventoryNumber": "06-012",
+        "osNumber": "БП-001020"
+    },
+    {
+        "id": 142,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-6L, 504232 v7",
+        "inventoryNumber": "06-013",
+        "osNumber": "БП-001021"
+    },
+    {
+        "id": 143,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-6R, 504233 v7",
+        "inventoryNumber": "06-014",
+        "osNumber": "БП-001021"
+    },
+    {
+        "id": 144,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-8L, 504640 v9",
+        "inventoryNumber": "06-015",
+        "osNumber": "БП-001021"
+    },
+    {
+        "id": 145,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-8R, 504641 v9",
+        "inventoryNumber": "06-016",
+        "osNumber": "БП-001021"
+    },
+    {
+        "id": 146,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-4L, 504645 v10",
+        "inventoryNumber": "06-017",
+        "osNumber": "БП-001020"
+    },
+    {
+        "id": 147,
+        "areaId": 5,
+        "name": "Самоочищающийся фильтр MDV-4L, 504644 v10",
+        "inventoryNumber": "06-018",
+        "osNumber": "БП-001020"
+    },
+    {
+        "id": 148,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-P402E, Z1101966",
+        "inventoryNumber": "06-101",
+        "osNumber": "БП-000104"
+    },
+    {
+        "id": 149,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-P402E, Z1101984",
+        "inventoryNumber": "06-102",
+        "osNumber": "БП-000102"
+    },
+    {
+        "id": 150,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-P402E, Z1101990",
+        "inventoryNumber": "06-103",
+        "osNumber": "БП-000103"
+    },
+    {
+        "id": 151,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-402, Z1102048",
+        "inventoryNumber": "06-104",
+        "osNumber": "БП-000147"
+    },
+    {
+        "id": 152,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-402, Z1102016",
+        "inventoryNumber": "06-105",
+        "osNumber": "БП-000146"
+    },
+    {
+        "id": 153,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-402, Z1102017",
+        "inventoryNumber": "06-106",
+        "osNumber": "БП-000148"
+    },
+    {
+        "id": 154,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-P502L, W100102024001VG",
+        "inventoryNumber": "06-107",
+        "osNumber": "БП-000369"
+    },
+    {
+        "id": 155,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-P502L, W100102024002VG",
+        "inventoryNumber": "06-108",
+        "osNumber": "БП-000369"
+    },
+    {
+        "id": 156,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат OTC, WB-P502L, W100102024003VG",
+        "inventoryNumber": "06-109",
+        "osNumber": "БП-000369"
+    },
+    {
+        "id": 157,
+        "areaId": 5,
+        "name": "Аргонодуговой аппарат AURORA, Ironman 315 AC/DC Pulse, RI 1230816697",
+        "inventoryNumber": "06-110",
+        "osNumber": ""
+    },
+    {
+        "id": 158,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 350, 25.0641",
+        "inventoryNumber": "06-111",
+        "osNumber": "БП-000463"
+    },
+    {
+        "id": 159,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 350, 25.0643",
+        "inventoryNumber": "06-112",
+        "osNumber": "БП-000464"
+    },
+    {
+        "id": 160,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 350, 25.0645",
+        "inventoryNumber": "06-113",
+        "osNumber": "БП-000465"
+    },
+    {
+        "id": 161,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 350, 25.0647",
+        "inventoryNumber": "06-114",
+        "osNumber": "БП-000466"
+    },
+    {
+        "id": 162,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 350, 25.0649",
+        "inventoryNumber": "06-115",
+        "osNumber": "БП-000467"
+    },
+    {
+        "id": 163,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 350, 25.0651",
+        "inventoryNumber": "06-116",
+        "osNumber": "БП-000468"
+    },
+    {
+        "id": 164,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 350, 25.1444",
+        "inventoryNumber": "",
+        "osNumber": "БП-000794"
+    },
+    {
+        "id": 165,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 500, 25.3254",
+        "inventoryNumber": "06-117",
+        "osNumber": "БП-001018"
+    },
+    {
+        "id": 166,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 500, 25.3250",
+        "inventoryNumber": "06-118",
+        "osNumber": "БП-001016"
+    },
+    {
+        "id": 167,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 500, 25.3252",
+        "inventoryNumber": "06-119",
+        "osNumber": "БП-001017"
+    },
+    {
+        "id": 168,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 500, 25.3246",
+        "inventoryNumber": "06-120",
+        "osNumber": "БП-001014"
+    },
+    {
+        "id": 169,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 500, 25.3248",
+        "inventoryNumber": "06-121",
+        "osNumber": "БП-001015"
+    },
+    {
+        "id": 170,
+        "areaId": 5,
+        "name": "Аргонодуговой аппарат Evospark, EVOTIG 350 P AC/DC, 25.0477",
+        "inventoryNumber": "06-122",
+        "osNumber": "БП-000540"
+    },
+    {
+        "id": 171,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 501 Pro, 26.0580",
+        "inventoryNumber": "06-123",
+        "osNumber": "БП-001166"
+    },
+    {
+        "id": 172,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 501 Pro, 26.0582",
+        "inventoryNumber": "06-124",
+        "osNumber": "БП-001167"
+    },
+    {
+        "id": 173,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 501 Pro, 26.0586",
+        "inventoryNumber": "06-125",
+        "osNumber": "БП-001168"
+    },
+    {
+        "id": 174,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 501 Pro, 26.0590",
+        "inventoryNumber": "06-126",
+        "osNumber": "БП-001169"
+    },
+    {
+        "id": 175,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 501 Pro, 26.0588",
+        "inventoryNumber": "06-127",
+        "osNumber": "БП-001170"
+    },
+    {
+        "id": 176,
+        "areaId": 5,
+        "name": "Сварочный полуавтомат Evospark, EVOMIG 501 Pro, 26.0584",
+        "inventoryNumber": "06-128",
+        "osNumber": "БП-001171"
+    },
+    {
+        "id": 177,
+        "areaId": 5,
+        "name": "Аппарат ручной лазерной сварки ,",
+        "inventoryNumber": "06-129",
+        "osNumber": ""
+    },
+    {
+        "id": 178,
+        "areaId": 5,
+        "name": "Блок питания BMK-12W, 05516/23",
+        "inventoryNumber": "06-201",
+        "osNumber": "БП-000163"
+    },
+    {
+        "id": 179,
+        "areaId": 5,
+        "name": "Блок питания BMK-12W, 05559/24",
+        "inventoryNumber": "06-202",
+        "osNumber": "БП-000472"
+    },
+    {
+        "id": 180,
+        "areaId": 5,
+        "name": "Аппарат приварки гаек, МТ-1928Л УХЛ4, 14",
+        "inventoryNumber": "06-203",
+        "osNumber": "БП-000672"
+    },
+    {
+        "id": 181,
+        "areaId": 5,
+        "name": "Стапель №1 Лонжеронов кабины, MEC153.01-01",
+        "inventoryNumber": "06-301",
+        "osNumber": "БП-000776"
+    },
+    {
+        "id": 182,
+        "areaId": 5,
+        "name": "Стапель №2 Стенки задней 4608, MEC094.02-01",
+        "inventoryNumber": "06-302",
+        "osNumber": "БП-000579"
+    },
+    {
+        "id": 183,
+        "areaId": 5,
+        "name": "Стапель №3 Стенок боковых пр., MEC153.03-01",
+        "inventoryNumber": "06-303",
+        "osNumber": "БП-000767"
+    },
+    {
+        "id": 184,
+        "areaId": 5,
+        "name": "Стапель №3-01 Стенок боковых лев., MEC153.03-01-01",
+        "inventoryNumber": "06-304",
+        "osNumber": "БП-000768"
+    },
+    {
+        "id": 185,
+        "areaId": 5,
+        "name": "Стапель №4 Передней нижней стенки 4613, MEC094.04-01",
+        "inventoryNumber": "06-305",
+        "osNumber": "БП-000580"
+    },
+    {
+        "id": 186,
+        "areaId": 5,
+        "name": "Стапель №5 Верхней поперечины передка 5248, MEC153.05-01",
+        "inventoryNumber": "06-306",
+        "osNumber": "БП-000569"
+    },
+    {
+        "id": 187,
+        "areaId": 5,
+        "name": "Стапель №6 Верхней поперечины каркаса 0935, MEC153.06-01",
+        "inventoryNumber": "06-307",
+        "osNumber": "БП-000611"
+    },
+    {
+        "id": 188,
+        "areaId": 5,
+        "name": "Стапель №8 Стенок тоннеля кабины, MEC197.01-01",
+        "inventoryNumber": "06-308",
+        "osNumber": "БП-000774"
+    },
+    {
+        "id": 189,
+        "areaId": 5,
+        "name": "Стапель №8-01 Стенок тоннеля кабины, MEC197.02-01",
+        "inventoryNumber": "",
+        "osNumber": "БП-001148"
+    },
+    {
+        "id": 190,
+        "areaId": 5,
+        "name": "Стапель №9 Адаптера тоннеля, MEC232-01",
+        "inventoryNumber": "06-309",
+        "osNumber": "БП-001173"
+    },
+    {
+        "id": 191,
+        "areaId": 5,
+        "name": "Стапель №9-01 Адаптера тоннеля, MEC232.01-01",
+        "inventoryNumber": "",
+        "osNumber": "БП-001172"
+    },
+    {
+        "id": 192,
+        "areaId": 5,
+        "name": "Стапель для сварки деталей 1052, MEC172.01-01",
+        "inventoryNumber": "06-310",
+        "osNumber": "БП-000813"
+    },
+    {
+        "id": 193,
+        "areaId": 5,
+        "name": "Стапель для сварки деталей 1053, MEC172.02-01",
+        "inventoryNumber": "06-311",
+        "osNumber": "БП-000814"
+    },
+    {
+        "id": 194,
+        "areaId": 5,
+        "name": "Стапель для сварки деталей 4611, MEC172.03-01",
+        "inventoryNumber": "06-312",
+        "osNumber": "БП-000815"
+    },
+    {
+        "id": 195,
+        "areaId": 5,
+        "name": "Стапель для сварки деталей 4612, MEC172.04-01",
+        "inventoryNumber": "06-313",
+        "osNumber": "БП-000816"
+    },
+    {
+        "id": 196,
+        "areaId": 5,
+        "name": "Стапель для сварки деталей 933, MEC172.05-01",
+        "inventoryNumber": "06-314",
+        "osNumber": "БП-000817"
+    },
+    {
+        "id": 197,
+        "areaId": 5,
+        "name": "Стапель для сварки деталей 926, MEC172.06-01",
+        "inventoryNumber": "06-315",
+        "osNumber": "БП-000812"
+    },
+    {
+        "id": 198,
+        "areaId": 5,
+        "name": "Тележка для сварки 1, MEC190.01-01",
+        "inventoryNumber": "06-316",
+        "osNumber": "БП-000665"
+    },
+    {
+        "id": 199,
+        "areaId": 5,
+        "name": "Тележка для сварки 2, MEC190.02-01",
+        "inventoryNumber": "06-317",
+        "osNumber": "БП-000666"
+    },
+    {
+        "id": 200,
+        "areaId": 5,
+        "name": "Тележка для сварки 3, MEC190.03-01",
+        "inventoryNumber": "06-318",
+        "osNumber": "БП-000667"
+    },
+    {
+        "id": 201,
+        "areaId": 5,
+        "name": "Склад автоматизированный ДиКом-Лифт, 0234",
+        "inventoryNumber": "06-401",
+        "osNumber": "БП-000377"
+    },
+    {
+        "id": 202,
+        "areaId": 5,
+        "name": "Склад автоматизированный ДиКом-Лифт, 0235",
+        "inventoryNumber": "06-402",
+        "osNumber": "БП-000377"
+    },
+    {
+        "id": 203,
+        "areaId": 5,
+        "name": "Склад автоматизированный ДиКом-Лифт, 0236",
+        "inventoryNumber": "06-403",
+        "osNumber": "БП-000377"
+    },
+    {
+        "id": 204,
+        "areaId": 5,
+        "name": "Склад автоматизированный ДиКом-Лифт, 0237",
+        "inventoryNumber": "06-404",
+        "osNumber": "БП-000377"
+    },
+    {
+        "id": 205,
+        "areaId": 5,
+        "name": "Кран мостовой электрический однобалочный опорный 2,0 т, 17850325-01",
+        "inventoryNumber": "06-501",
+        "osNumber": "БП-000873"
+    },
+    {
+        "id": 206,
+        "areaId": 5,
+        "name": "Кран мостовой электрический однобалочный опорный 2,0 т, 17850325-02",
+        "inventoryNumber": "06-502",
+        "osNumber": "БП-000874"
+    },
+    {
+        "id": 207,
+        "areaId": 5,
+        "name": "Таль электрическая цепная, DMG 0501D, F25035004",
+        "inventoryNumber": "06-504",
+        "osNumber": "БП-001022"
+    },
+    {
+        "id": 208,
+        "areaId": 5,
+        "name": "Таль электрическая цепная, DMG 0501D, F25035005",
+        "inventoryNumber": "06-505",
+        "osNumber": "БП-001022"
+    },
+    {
+        "id": 209,
+        "areaId": 5,
+        "name": "Таль электрическая цепная, DMG 0501D, F24085167",
+        "inventoryNumber": "06-507",
+        "osNumber": "БП-001022"
+    },
+    {
+        "id": 210,
+        "areaId": 5,
+        "name": "Таль электрическая цепная, DMG 0501D, F25035003",
+        "inventoryNumber": "06-503",
+        "osNumber": "БП-001022"
+    },
+    {
+        "id": 211,
+        "areaId": 5,
+        "name": "Таль электрическая цепная, DMG 0501D, F25035006",
+        "inventoryNumber": "06-506",
+        "osNumber": "БП-001023"
+    },
+    {
+        "id": 212,
+        "areaId": 5,
+        "name": "Таль электрическая цепная, DMG 0501D, F24085171",
+        "inventoryNumber": "06-508",
+        "osNumber": "БП-001023"
+    },
+    {
+        "id": 213,
+        "areaId": 5,
+        "name": "Таль электрическая цепная, DMG 0501D, F24085173",
+        "inventoryNumber": "06-509",
+        "osNumber": "БП-001023"
+    },
+    {
+        "id": 214,
+        "areaId": 5,
+        "name": "Таль электрическая цепная (запасная MNT), DMG 0501D, F230250076",
+        "inventoryNumber": "06-510",
+        "osNumber": ""
+    },
+    {
+        "id": 215,
+        "areaId": 6,
+        "name": "Пресс гидравлический N3651AL NORDBERG",
+        "inventoryNumber": "08-001",
+        "osNumber": "БП-00001460"
+    },
+    {
+        "id": 216,
+        "areaId": 6,
+        "name": "Комплект для подачи масла Widerkraft WDK-89204",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 217,
+        "areaId": 6,
+        "name": "Комплект для подачи консистентной смазки в шарниры рычагов подвески Meclube 013-1096-000",
+        "inventoryNumber": "08-014",
+        "osNumber": "УП-00009052"
+    },
+    {
+        "id": 218,
+        "areaId": 6,
+        "name": "Комплект для подачи консистентной смазки в шарниры рычагов подвески Meclube 013-1096-000",
+        "inventoryNumber": "08-015",
+        "osNumber": "УП-00009052"
+    },
+    {
+        "id": 219,
+        "areaId": 6,
+        "name": "К 56184 Мостовой эл. однобалочный кран 2,5т модель QQSMS11L3BP218070",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 220,
+        "areaId": 6,
+        "name": "К 56185 Мостовой эл. однобалочный кран 1т модель XQSMS17N3A1C18070",
+        "inventoryNumber": "",
+        "osNumber": "220088"
+    },
+    {
+        "id": 221,
+        "areaId": 6,
+        "name": "125736/01 Кран консольный Demag Логистика",
+        "inventoryNumber": "",
+        "osNumber": "220052"
+    },
+    {
+        "id": 222,
+        "areaId": 6,
+        "name": "125736/02 Кран консольный Demag Логистика",
+        "inventoryNumber": "",
+        "osNumber": "220031"
+    },
+    {
+        "id": 223,
+        "areaId": 6,
+        "name": "125736/03 Кран консольный Demag Логистика",
+        "inventoryNumber": "",
+        "osNumber": "220032"
+    },
+    {
+        "id": 224,
+        "areaId": 6,
+        "name": "125736/04 Кран консольный Demag Логистика",
+        "inventoryNumber": "",
+        "osNumber": "220049"
+    },
+    {
+        "id": 225,
+        "areaId": 6,
+        "name": "125736/05 Кран консольный Demag Логистика",
+        "inventoryNumber": "",
+        "osNumber": "220050"
+    },
+    {
+        "id": 226,
+        "areaId": 6,
+        "name": "Телеги с слайдом для сборки ТО",
+        "inventoryNumber": "08-008",
+        "osNumber": "БП-000737"
+    },
+    {
+        "id": 227,
+        "areaId": 6,
+        "name": "Телеги с слайдом для сборки ТО",
+        "inventoryNumber": "08-009",
+        "osNumber": "БП-001128"
+    },
+    {
+        "id": 228,
+        "areaId": 6,
+        "name": "Телеги с слайдом для сборки ТО",
+        "inventoryNumber": "08-010",
+        "osNumber": "БП-001129"
+    },
+    {
+        "id": 229,
+        "areaId": 6,
+        "name": "Телеги с слайдом для сборки ТО",
+        "inventoryNumber": "08-011",
+        "osNumber": "БП-001130"
+    },
+    {
+        "id": 230,
+        "areaId": 6,
+        "name": "Телеги с слайдом для сборки ТО",
+        "inventoryNumber": "08-012",
+        "osNumber": "БП-001131"
+    },
+    {
+        "id": 231,
+        "areaId": 6,
+        "name": "Телеги с слайдом для сборки ТО",
+        "inventoryNumber": "08-013",
+        "osNumber": "БП-001132"
+    },
+    {
+        "id": 232,
+        "areaId": 6,
+        "name": "Телеги перевозки собранных ТО, MEC152-01",
+        "inventoryNumber": "08-004",
+        "osNumber": "БП-000591"
+    },
+    {
+        "id": 233,
+        "areaId": 6,
+        "name": "Телеги перевозки собранных ТО, MEC152-02",
+        "inventoryNumber": "08-005",
+        "osNumber": "БП-000592"
+    },
+    {
+        "id": 234,
+        "areaId": 6,
+        "name": "Телеги перевозки собранных ТО, MEC152-03",
+        "inventoryNumber": "08-006",
+        "osNumber": "БП-000593"
+    },
+    {
+        "id": 235,
+        "areaId": 6,
+        "name": "Телеги перевозки собранных ТО, MEC152-04",
+        "inventoryNumber": "08-007",
+        "osNumber": "БП-000594"
+    },
+    {
+        "id": 236,
+        "areaId": 6,
+        "name": "Телега установки ТО, MEC293-01",
+        "inventoryNumber": "",
+        "osNumber": ""
+    },
+    {
+        "id": 237,
+        "areaId": 6,
+        "name": "Кантователь осей КД1500.2, 24-12-050",
+        "inventoryNumber": "08-016",
+        "osNumber": "БП-000437"
+    },
+    {
+        "id": 238,
+        "areaId": 6,
+        "name": "Кантователь осей КД1500.2, 24-12-051",
+        "inventoryNumber": "08-017",
+        "osNumber": "БП-000878"
+    },
+    {
+        "id": 239,
+        "areaId": 7,
+        "name": "Двухстоечный подъемник EE-C10M №1",
+        "inventoryNumber": "09-011",
+        "osNumber": "БП-000105"
+    },
+    {
+        "id": 240,
+        "areaId": 7,
+        "name": "Двухстоечный подъемник EE-C10M №2",
+        "inventoryNumber": "09-012",
+        "osNumber": "БП-000106"
+    },
+    {
+        "id": 241,
+        "areaId": 7,
+        "name": "Стационарный маркиратор Sic Marking e10-c153",
+        "inventoryNumber": "09-013",
+        "osNumber": "БП-000469"
+    },
+    {
+        "id": 242,
+        "areaId": 7,
+        "name": "Стационарный маркиратор Sic Marking e10-c153",
+        "inventoryNumber": "Запасной",
+        "osNumber": "БП-000470"
+    },
+    {
+        "id": 243,
+        "areaId": 7,
+        "name": "Манипулятор для установки ветрового стекла",
+        "inventoryNumber": "09-024",
+        "osNumber": "БП-000879"
+    },
+    {
+        "id": 244,
+        "areaId": 7,
+        "name": "Манипулятор для установки сиденей",
+        "inventoryNumber": "09-025",
+        "osNumber": "В разработке"
+    },
+    {
+        "id": 245,
+        "areaId": 7,
+        "name": "Манипулятор для установки капота",
+        "inventoryNumber": "09-026",
+        "osNumber": "В разработке"
+    },
+    {
+        "id": 246,
+        "areaId": 7,
+        "name": "Манипулятор для установки дверей",
+        "inventoryNumber": "09-027",
+        "osNumber": "В разработке"
+    },
+    {
+        "id": 247,
+        "areaId": 7,
+        "name": "Манипулятор для установки бампера",
+        "inventoryNumber": "09-028",
+        "osNumber": "В разработке"
+    },
+    {
+        "id": 248,
+        "areaId": 7,
+        "name": "Таль электрическая цепная РОЛТЕК 0,5т. RT-ECH-0.5-8/2.P2.6.6, №25ECH0034",
+        "inventoryNumber": "",
+        "osNumber": "БП-000811"
+    },
+    {
+        "id": 249,
+        "areaId": 7,
+        "name": "Таль электрическая цепная РОЛТЕК 0,5т. RT-ECH-0.5-8/2.P2.6.6, №25ECH0035",
+        "inventoryNumber": "",
+        "osNumber": "БП-000811"
+    },
+    {
+        "id": 250,
+        "areaId": 7,
+        "name": "Таль электрическая цепная РОЛТЕК 0,5т. RT-ECH-0.5-8/2.P2.6.6, №25ECH0036",
+        "inventoryNumber": "",
+        "osNumber": "БП-000811"
+    },
+    {
+        "id": 251,
+        "areaId": 7,
+        "name": "Таль электрическая цепная РОЛТЕК 0,5т. RT-ECH-0.5-8/2.P2.6.6, №25ECH0037",
+        "inventoryNumber": "",
+        "osNumber": "БП-000811"
+    },
+    {
+        "id": 252,
+        "areaId": 7,
+        "name": "Таль электрическая цепная РОЛТЕК 0,5т. RT-ECH-0.5-8/2.P2.6.6, №25ECH0038",
+        "inventoryNumber": "",
+        "osNumber": "БП-000811"
+    },
+    {
+        "id": 253,
+        "areaId": 7,
+        "name": "Таль электрическая цепная РОЛТЕК 0,5т. RT-ECH-0.5-8/2.P2.6.6, №25ECH0039",
+        "inventoryNumber": "",
+        "osNumber": "БП-000811"
+    },
+    {
+        "id": 254,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-001",
+        "osNumber": "БП-000164"
+    },
+    {
+        "id": 255,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-002",
+        "osNumber": "БП-000165"
+    },
+    {
+        "id": 256,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-003",
+        "osNumber": "БП-000166"
+    },
+    {
+        "id": 257,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-004",
+        "osNumber": "БП-000167"
+    },
+    {
+        "id": 258,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-005",
+        "osNumber": "БП-000168"
+    },
+    {
+        "id": 259,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-006",
+        "osNumber": "БП-000169"
+    },
+    {
+        "id": 260,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-007",
+        "osNumber": "БП-000170"
+    },
+    {
+        "id": 261,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-008",
+        "osNumber": "БП-000171"
+    },
+    {
+        "id": 262,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-009",
+        "osNumber": "БП-000172"
+    },
+    {
+        "id": 263,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-010",
+        "osNumber": "БП-000173"
+    },
+    {
+        "id": 264,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-014",
+        "osNumber": "БП-000514"
+    },
+    {
+        "id": 265,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-015",
+        "osNumber": "БП-000515"
+    },
+    {
+        "id": 266,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-016",
+        "osNumber": "БП-000516"
+    },
+    {
+        "id": 267,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-017",
+        "osNumber": "БП-000517"
+    },
+    {
+        "id": 268,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-018",
+        "osNumber": "БП-000518"
+    },
+    {
+        "id": 269,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-019",
+        "osNumber": "БП-000519"
+    },
+    {
+        "id": 270,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-020",
+        "osNumber": "БП-000520"
+    },
+    {
+        "id": 271,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-021",
+        "osNumber": "БП-000521"
+    },
+    {
+        "id": 272,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-022",
+        "osNumber": "БП-000522"
+    },
+    {
+        "id": 273,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-023",
+        "osNumber": "БП-000523"
+    },
+    {
+        "id": 274,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-029",
+        "osNumber": "БП-000572"
+    },
+    {
+        "id": 275,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-030",
+        "osNumber": "БП-000573"
+    },
+    {
+        "id": 276,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-031",
+        "osNumber": "БП-000574"
+    },
+    {
+        "id": 277,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-032",
+        "osNumber": "БП-000575"
+    },
+    {
+        "id": 278,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-033",
+        "osNumber": "БП-000576"
+    },
+    {
+        "id": 279,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-034",
+        "osNumber": "БП-001309"
+    },
+    {
+        "id": 280,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-035",
+        "osNumber": "БП-001310"
+    },
+    {
+        "id": 281,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-036",
+        "osNumber": "БП-001311"
+    },
+    {
+        "id": 282,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-037",
+        "osNumber": "БП-001312"
+    },
+    {
+        "id": 283,
+        "areaId": 7,
+        "name": "Тележки перемещения кабин",
+        "inventoryNumber": "09-038",
+        "osNumber": "БП-001313"
+    },
+    {
+        "id": 284,
+        "areaId": 1,
+        "name": "Установка подготовки воздуха камеры окраски",
+        "inventoryNumber": "07-006",
+        "osNumber": ""
+    },
+    {
+        "id": 285,
+        "areaId": 1,
+        "name": "Камера окрасочно-сушильная OSKAS Special 13D2-n2 (Retec)",
+        "inventoryNumber": "07-001",
+        "osNumber": "БП-000610"
+    },
+    {
+        "id": 286,
+        "areaId": 1,
+        "name": "Климатическая вентиляционная установка КПО",
+        "inventoryNumber": "07-004",
+        "osNumber": ""
+    },
+    {
+        "id": 287,
+        "areaId": 1,
+        "name": "Зона испарения, сушки и охлаждения камеры окраски",
+        "inventoryNumber": "07-005",
+        "osNumber": ""
+    },
+    {
+        "id": 288,
+        "areaId": 1,
+        "name": "Конвейер камеры окраски (конвейерная цепь)",
+        "inventoryNumber": "07-007(1)",
+        "osNumber": ""
+    },
+    {
+        "id": 289,
+        "areaId": 1,
+        "name": "Конвейер камеры окраски (подъёмник загрузки)",
+        "inventoryNumber": "07-007(2)",
+        "osNumber": ""
+    },
+    {
+        "id": 290,
+        "areaId": 1,
+        "name": "Конвейер камеры окраски (подъёмник камеры)",
+        "inventoryNumber": "07-007(3)",
+        "osNumber": ""
+    },
+    {
+        "id": 291,
+        "areaId": 1,
+        "name": "Конвейер камеры окраски (подвесы)",
+        "inventoryNumber": "07-007(4)",
+        "osNumber": ""
+    },
+    {
+        "id": 292,
+        "areaId": 1,
+        "name": "Установка водоподготовки Eurowater",
+        "inventoryNumber": "07-008",
+        "osNumber": ""
+    },
+    {
+        "id": 293,
+        "areaId": 1,
+        "name": "№1 Минисистема для подачи герметика KHAMAI EXTR D20L, KHD20L0425",
+        "inventoryNumber": "07-009",
+        "osNumber": "БП-000529"
+    },
+    {
+        "id": 294,
+        "areaId": 1,
+        "name": "Кантователь двухстоечный с подъемными центрами ГРП-КД2-ПЦ-2000 (134043)",
+        "inventoryNumber": "07-010",
+        "osNumber": "БП-000595"
+    },
+    {
+        "id": 295,
+        "areaId": 1,
+        "name": "№1 Камера пескоструйная с напорной системой подачи абразива и циклонной фильтрацией NS10P Nordberg с/н241143021002",
+        "inventoryNumber": "07-018",
+        "osNumber": "БП-000525"
+    },
+    {
+        "id": 296,
+        "areaId": 1,
+        "name": "№2 Камера пескоструйная с напорной системой подачи абразива и циклонной фильтрацией NS10P Nordberg с/н241143021009",
+        "inventoryNumber": "07-018",
+        "osNumber": "БП-000526"
+    },
+    {
+        "id": 297,
+        "areaId": 1,
+        "name": "№3 Камера пескоструйная с напорной системой подачи абразива и циклонной фильтрацией NS10P Nordberg с/н250743021002",
+        "inventoryNumber": "07-018",
+        "osNumber": "БП-000769"
+    },
+    {
+        "id": 298,
+        "areaId": 1,
+        "name": "№1 Кабина покрасочная FOK 4000 М зав. 217",
+        "inventoryNumber": "07-019",
+        "osNumber": "БП-000993"
+    },
+    {
+        "id": 299,
+        "areaId": 1,
+        "name": "№2 Кабина покрасочная FOK 4000 М зав. 218",
+        "inventoryNumber": "07-019",
+        "osNumber": "БП-000994"
+    },
+    {
+        "id": 300,
+        "areaId": 1,
+        "name": "№1 Краскопульт ручной электростатический OTS-3000-SL-B OTSON",
+        "inventoryNumber": "",
+        "osNumber": "БП-001035"
+    },
+    {
+        "id": 301,
+        "areaId": 1,
+        "name": "№2 Краскопульт ручной электростатический OTS-3000-SL-B OTSON",
+        "inventoryNumber": "",
+        "osNumber": "БП-001036"
+    },
+    {
+        "id": 302,
+        "areaId": 1,
+        "name": "№3 Краскопульт ручной электростатический OTS-3000-SL-B OTSON",
+        "inventoryNumber": "",
+        "osNumber": "БП-001037"
+    },
+    {
+        "id": 303,
+        "areaId": 1,
+        "name": "№4 Краскопульт ручной электростатический OTS-3000-SL-B OTSON",
+        "inventoryNumber": "",
+        "osNumber": "БП-001038"
+    },
+    {
+        "id": 304,
+        "areaId": 1,
+        "name": "№1 Кабина для шлифовальных работ НОЙНЕР KGS-R 2000, 4442407VEP604512",
+        "inventoryNumber": "07-011",
+        "osNumber": "БП-000581"
+    },
+    {
+        "id": 305,
+        "areaId": 1,
+        "name": "№2 Кабина для шлифовальных работ НОЙНЕР KGS-R 2000, 4442407VEP604607",
+        "inventoryNumber": "07-011",
+        "osNumber": "БП-000582"
+    },
+    {
+        "id": 306,
+        "areaId": 1,
+        "name": "№3 Кабина для шлифовальных работ НОЙНЕР KGS-R 2000, 4442407VEP604536",
+        "inventoryNumber": "07-011",
+        "osNumber": "БП-000583"
+    },
+    {
+        "id": 307,
+        "areaId": 1,
+        "name": "№4 Кабина для шлифовальных работ НОЙНЕР KGS-R 2000, 4442407VEP604616",
+        "inventoryNumber": "07-011",
+        "osNumber": "БП-000584"
+    },
+    {
+        "id": 308,
+        "areaId": 1,
+        "name": "№5 Кабина для шлифовальных работ НОЙНЕР KGS-R 2000",
+        "inventoryNumber": "07-011",
+        "osNumber": "БП-000719"
+    },
+    {
+        "id": 309,
+        "areaId": 1,
+        "name": "№6 Кабина для шлифовальных работ НОЙНЕР KGS-R 2000",
+        "inventoryNumber": "07-011",
+        "osNumber": "БП-000720"
+    },
+    {
+        "id": 310,
+        "areaId": 1,
+        "name": "Аппарат окрасочный для антигравия GRACO MERKUR 45:1 50 DV CART",
+        "inventoryNumber": "07-015",
+        "osNumber": "БП-000905"
+    },
+    {
+        "id": 311,
+        "areaId": 1,
+        "name": "№1 Легкая крановая система для установки панели крыши на кабину ЛКС22.0500-7,5х2,4 Зав. № 25060",
+        "inventoryNumber": "",
+        "osNumber": "БП-000985"
+    },
+    {
+        "id": 312,
+        "areaId": 1,
+        "name": "№2 Легкая крановая система для установки панели крыши на кабину ЛКС22.0500-10,1х2,4 Зав. № 25061",
+        "inventoryNumber": "",
+        "osNumber": "БП-000986"
+    },
+    {
+        "id": 313,
+        "areaId": 1,
+        "name": "№2 Минисистема для подачи герметика KHAMAI EXTR D20L, KHD20L3225",
+        "inventoryNumber": "07-009",
+        "osNumber": "БП-000868"
+    },
+    {
+        "id": 314,
+        "areaId": 1,
+        "name": "Минисистема для подачи воска Graco LD",
+        "inventoryNumber": "07-014",
+        "osNumber": "БП-000906"
+    },
+    {
+        "id": 315,
+        "areaId": 1,
+        "name": "№1 Пневмомешалка подъемная лопастная на подъемной стойке 20л, M-DK05303",
+        "inventoryNumber": "07-016",
+        "osNumber": "БП-000613"
+    },
+    {
+        "id": 316,
+        "areaId": 1,
+        "name": "№2 Пневмомешалка подъемная лопастная на подъемной стойке 20л, M-DK05305",
+        "inventoryNumber": "07-016",
+        "osNumber": "БП-000614"
+    },
+    {
+        "id": 317,
+        "areaId": 1,
+        "name": "№3 Пневмомешалка подъемная лопастная на подъемной стойке 20л, M-DK05306",
+        "inventoryNumber": "07-016",
+        "osNumber": "БП-000615"
+    },
+    {
+        "id": 318,
+        "areaId": 1,
+        "name": "№4 Пневмомешалка подъемная лопастная на подъемной стойке 20л, М-DK05302",
+        "inventoryNumber": "07-016",
+        "osNumber": "БП-000612"
+    },
+    {
+        "id": 319,
+        "areaId": 1,
+        "name": "Подъемник двухстоечный ЕАЕС10М №3 sn EETP250500642",
+        "inventoryNumber": "07-012",
+        "osNumber": "БП-000669"
+    },
+    {
+        "id": 320,
+        "areaId": 1,
+        "name": "Подъемник двухстоечный EE-C10.М №4",
+        "inventoryNumber": "07-013",
+        "osNumber": "БП-000984"
+    },
+    {
+        "id": 321,
+        "areaId": 1,
+        "name": "Стол шлифовальный GS 2000 (MHL), зав. № 353/25",
+        "inventoryNumber": "07-018",
+        "osNumber": "БП-000997"
+    },
+    {
+        "id": 322,
+        "areaId": 1,
+        "name": "Стол шлифовальный GS 2000 (MHL), зав. № 354/25",
+        "inventoryNumber": "07-018",
+        "osNumber": "БП-001034"
+    },
+    {
+        "id": 323,
+        "areaId": 1,
+        "name": "Станок ленточнопильный, LSZ2227",
+        "inventoryNumber": "",
+        "osNumber": "БП-001308"
+    },
+    {
+        "id": 324,
+        "areaId": 1,
+        "name": "Аппарат абразивоструйный с дистанционным управлением BlastRazor Z-200RCS SGV",
+        "inventoryNumber": "",
+        "osNumber": "БП-001384"
+    },
+    {
+        "id": 325,
+        "areaId": 1,
+        "name": "Насос ENDURA-FLO PUMP 3:1 AODD,150,BSP,STD, сер. №А00885",
+        "inventoryNumber": "07-016",
+        "osNumber": "БП-001392"
+    },
+    {
+        "id": 326,
+        "areaId": 1,
+        "name": "Насос ENDURA-FLO PUMP 3:1 AODD,150,BSP,STD, сер. №А00884",
+        "inventoryNumber": "07-016",
+        "osNumber": "БП-001393"
+    },
+    {
+        "id": 327,
+        "areaId": 1,
+        "name": "Насос ENDURA-FLO PUMP 3:1 AODD,150,BSP,STD, сер. №А00879",
+        "inventoryNumber": "07-016",
+        "osNumber": "БП-001394"
+    },
+    {
+        "id": 328,
+        "areaId": 1,
+        "name": "Электроснабжение и освещение участка окраски, герметизации и сборки кабин",
+        "inventoryNumber": "07-000",
+        "osNumber": "БП-000818"
+    },
+    {
+        "id": 329,
+        "areaId": 1,
+        "name": "Пневмомагистраль с прокладкой по металлоконструкции на подвесных направляющих участка окраски, герметизации и сборки кабин",
+        "inventoryNumber": "",
+        "osNumber": "БП-000716"
+    },
+    {
+        "id": 330,
+        "areaId": 1,
+        "name": "Оборудование подачи ЛКМ (КПО, камера окраски)",
+        "inventoryNumber": "07-016",
+        "osNumber": ""
+    },
+    {
+        "id": 331,
+        "areaId": 1,
+        "name": "3К системы смешивания краски B+M AB51017",
+        "inventoryNumber": "07-017",
+        "osNumber": ""
+    },
+    {
+        "id": 332,
+        "areaId": 1,
+        "name": "Минисистема для подачи краски Graco Triton 3D150",
+        "inventoryNumber": "07-016",
+        "osNumber": ""
+    },
+    {
+        "id": 333,
+        "areaId": 1,
+        "name": "7299 PI TOOLS Бак красконагнетатель pit 20A",
+        "inventoryNumber": "07-016",
+        "osNumber": "УП-00013221"
+    },
+    {
+        "id": 334,
+        "areaId": 1,
+        "name": "Ленточнопильный станок BSM-128HDRC 380V (10013160/180923/3406629/3)",
+        "inventoryNumber": "",
+        "osNumber": "БП-00000392"
+    }
 ]

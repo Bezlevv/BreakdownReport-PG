@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.AspNetCore.Authorization;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
+
 var useWinAuth = builder.Configuration.GetValue<bool>("UseWindowsAuth");
 if (useWinAuth)
 {
@@ -17,35 +19,47 @@ if (useWinAuth)
             .RequireAuthenticatedUser()
             .Build());
 }
+
 // Справочники — по-прежнему из JSON
 builder.Services.AddSingleton(_ =>
     DictionaryStore.LoadFromFolder(
         Path.Combine(builder.Environment.ContentRootPath, "Config")));
 
-// Определяем папку данных
+// Папка данных: вложения, журналы, бэкапы (базы теперь в PostgreSQL)
 var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "Data");
 Directory.CreateDirectory(dataFolder);
-var dbPath = Path.Combine(dataFolder, "breakdowns.db");
-//База данных
-builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlite($"Data Source={dbPath}"));
+
+// ----- Базы в PostgreSQL -----
+builder.Services.AddDbContext<AppDbContext>(o =>
+    o.UseNpgsql(builder.Configuration.GetConnectionString("Breakdowns")));
 builder.Services.AddScoped<BreakdownService>();
 
-// ----- Модуль модернизаций: отдельная БД, не смешивается с поломками -----
-var modDbPath = Path.Combine(dataFolder, "modernizations.db");
-builder.Services.AddDbContext<ModernizationDbContext>(o => o.UseSqlite($"Data Source={modDbPath}"));
+builder.Services.AddDbContext<ModernizationDbContext>(o =>
+    o.UseNpgsql(builder.Configuration.GetConnectionString("Modernizations")));
 builder.Services.AddScoped<ModernizationService>();
+
 builder.Services.AddSingleton(_ => new ModernizationAttachmentService(
     Path.Combine(dataFolder, "attachments-mod")));
 builder.Services.AddSingleton(_ => new ModernizationAuditService(
     Path.Combine(dataFolder, "modernizations-audit.json")));
+
 // Сервис excel
 builder.Services.AddSingleton<ExcelExportService>();
-//Сервис вложений(фото, скрины,файлы)
+
+// Сервис вложений поломок
 builder.Services.AddSingleton(_ => new AttachmentService(
     Path.Combine(dataFolder, "attachments")));
-//Сервис учета изменений заявок
+
+// Сервис учета изменений заявок поломок
 builder.Services.AddSingleton(_ => new AuditService(
     Path.Combine(dataFolder, "audit.json")));
+
+// Резервное копирование PostgreSQL: ручное + ежедневное в 8:00, храним 3 копии
+builder.Services.AddSingleton(sp => new BackupMaker(dataFolder, sp.GetRequiredService<IConfiguration>()));
+builder.Services.AddHostedService<DailyBackupService>();
+
+// Одноразовый перенос данных из SQLite в PostgreSQL
+builder.Services.AddSingleton<SqliteToPostgresMigrator>();
 
 var app = builder.Build();
 
@@ -55,35 +69,20 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-// Создание структуры БД + одноразовый импорт из старого JSON
+// Создание структуры БД + миграция из SQLite + импорт из старого JSON
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
-    // таблица по трудозатратам при выполнении модернизаций
-    scope.ServiceProvider.GetRequiredService<ModernizationDbContext>()
-    .Database.ExecuteSqlRaw("""
-        CREATE TABLE IF NOT EXISTS "LaborEntries" (
-            "Id" INTEGER NOT NULL CONSTRAINT "PK_LaborEntries" PRIMARY KEY AUTOINCREMENT,
-            "ModernizationId" INTEGER NOT NULL,
-            "EmployeeId" INTEGER NOT NULL,
-            "Minutes" INTEGER NOT NULL
-        );
-        """);
-
-    scope.ServiceProvider.GetRequiredService<ModernizationDbContext>()
-    .Database.ExecuteSqlRaw("""
-        CREATE TABLE IF NOT EXISTS "Comments" (
-            "Id" INTEGER NOT NULL CONSTRAINT "PK_Comments" PRIMARY KEY AUTOINCREMENT,
-            "ModernizationId" INTEGER NOT NULL,
-            "AuthorName" TEXT NOT NULL,
-            "At" TEXT NOT NULL,
-            "Text" TEXT NOT NULL
-        );
-        """);
-
-
     scope.ServiceProvider.GetRequiredService<ModernizationDbContext>().Database.EnsureCreated();
+
+    // Перенос данных из SQLite (по флагу MigrateFromSqlite в appsettings.json)
+    if (app.Configuration.GetValue<bool>("MigrateFromSqlite", false))
+    {
+        var sqliteFolder = app.Configuration.GetValue<string>("SqliteDataFolder") ?? dataFolder;
+        scope.ServiceProvider.GetRequiredService<SqliteToPostgresMigrator>()
+            .Run(Path.GetFullPath(sqliteFolder));
+    }
 
     var historyFile = Path.Combine(dataFolder, "history.json");
     if (File.Exists(historyFile) && !db.Breakdowns.Any())
@@ -100,6 +99,21 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+// Скрываем модуль модернизаций, если флаг ShowModernizations выключен
+var showModernizations = app.Configuration.GetValue<bool>("ShowModernizations", true);
+app.Use(async (context, next) =>
+{
+    if (!showModernizations &&
+        (context.Request.Path.StartsWithSegments("/Modernizations") ||
+         context.Request.Path.StartsWithSegments("/attachments-mod")))
+    {
+        context.Response.StatusCode = 404;
+        return;
+    }
+    await next();
+});
+
 // Если NTLM-рукопожатие сломалось — возвращаем честный 401 вместо падения
 app.Use(async (context, next) =>
 {
@@ -116,11 +130,13 @@ app.Use(async (context, next) =>
         await context.Response.WriteAsync("Требуется вход в Windows. Обновите страницу (F5).");
     }
 });
+
 if (useWinAuth)
 {
     app.UseAuthentication();
     app.UseAuthorization();
 }
+
 app.MapRazorPages();
 
 // Установка текущего пользователя — работает без Razor Pages
@@ -142,7 +158,14 @@ app.MapGet("/SetUser", (int userId, string? returnUrl, HttpResponse response) =>
     return Results.Redirect(isLocal ? returnUrl! : "/Breakdowns");
 });
 
-// Отдача вложений
+// Ручной бэкап: создаёт копию и сразу скачивает её
+app.MapGet("/Backup", (BackupMaker maker) =>
+{
+    var path = maker.CreateBackup();
+    return Results.File(path, "application/zip", Path.GetFileName(path));
+});
+
+// Отдача вложений поломок
 app.MapGet("/attachments/{id:int}/{fileName}", (int id, string fileName, AttachmentService attachments) =>
 {
     var path = attachments.GetFullPath(id, fileName);

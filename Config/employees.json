@@ -1,6 +1,86 @@
 [
 
   {
+    "id": 1,
+    "lastName": "Коленченко",
+    "firstName": "Станислав",
+    "middleName": "Александрович",
+    "login": "s.kolenchenko",
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": [ "Коленченко С.А." ]
+  },
+  {
+    "id": 2,
+    "lastName": "Жуков",
+    "firstName": "Антон",
+    "middleName": "Александрович",
+    "login": "a.zhukov",
+    "position": "Admin",
+    "canBeAuthor": true,
+    "aliases": [ "Жуков А.А." ]
+  },
+  {
+    "id": 3,
+    "lastName": "Ахметов",
+    "firstName": "Асхат",
+    "middleName": "Адлбекович",
+    "login": "a.ahmetov",
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": [ "Ахметов А.А." ]
+  },
+  {
+    "id": 4,
+    "lastName": "Тюкало",
+    "firstName": "Кирилл",
+    "middleName": "Дмитриевич",
+    "login": "k.tukalo",
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 5,
+    "lastName": "Назаров",
+    "firstName": "Максим",
+    "middleName": "Сергеевич",
+    "login": "m.nazarov",
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 6,
+    "lastName": "Хмелев",
+    "firstName": "Евгений",
+    "middleName": "Валерьевич",
+    "login": "e.hmelev",
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 7,
+    "lastName": "Шмонов",
+    "firstName": "Павел",
+    "middleName": "Андреевич",
+    "login": "p.shmonov",
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 8,
+    "lastName": "Кузнецов",
+    "firstName": "Илья",
+    "middleName": "Матвеевич",
+    "login": "i.kuznetsov",
+    "position": null,
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
     "id": 9,
     "lastName": "Безлепкин",
     "firstName": "Виталий",
@@ -11,57 +91,104 @@
     "aliases": [ "Безлепкин В.В." ]
   },
   {
-    "id": 1,
-    "lastName": "Коленченко",
-    "firstName": null,
-    "middleName": null,
+    "id": 10,
+    "lastName": "Некрасов",
+    "firstName": "Игорь",
+    "middleName": "Евгеньевич",
+    "login": "i.nekrasov",
     "position": null,
     "canBeAuthor": true,
-    "aliases": [ "Коленченко С.А." ]
-  },
-  {
-    "id": 2,
-    "lastName": "Жуков",
-    "firstName": null,
-    "middleName": null,
-    "position": null,
-    "canBeAuthor": true,
-    "aliases": [ "Жуков А.А." ]
-  },
-  {
-    "id": 3,
-    "lastName": "Ахметов",
-    "firstName": null,
-    "middleName": null,
-    "position": null,
-    "canBeAuthor": false,
-    "aliases": [ "Ахметиов" ]
-  },
-  {
-    "id": 4,
-    "lastName": "Тюкало",
-    "firstName": null,
-    "middleName": null,
-    "position": null,
-    "canBeAuthor": false,
     "aliases": []
   },
   {
-    "id": 5,
-    "lastName": "Назаров",
-    "firstName": null,
-    "middleName": null,
-    "position": null,
-    "canBeAuthor": false,
+    "id": 11,
+    "lastName": "Грачёв",
+    "firstName": "Максим",
+    "middleName": "Андреевич",
+    "login": "m.grachov",
+    "position": "Admin",
+    "canBeAuthor": true,
     "aliases": []
   },
   {
-    "id": 6,
-    "lastName": "Хмелев",
-    "firstName": null,
-    "middleName": null,
-    "position": null,
-    "canBeAuthor": false,
+    "id": 12,
+    "lastName": "Романов",
+    "firstName": "Алексей ",
+    "middleName": "Николаевич",
+    "login": "a.romanov",
+    "position": "Admin",
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 13,
+    "lastName": "Чикварин",
+    "firstName": "Сергей",
+    "middleName": "Владимирович",
+    "login": "s.chicvarin",
+    "position": "Admin",
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 14,
+    "lastName": "Быков",
+    "firstName": "Михаил",
+    "middleName": "Аркадьевич",
+    "login": "m.bykov",
+    "position": "Enginer",
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 15,
+    "lastName": "Лавренов",
+    "firstName": "Евгений",
+    "middleName": "Валентинович",
+    "login": "e.lavrenov",
+    "position": "Enginer",
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 16,
+    "lastName": "Хабиров",
+    "firstName": "Виктор",
+    "middleName": "Олегович",
+    "login": "v.khabirov",
+    "position": "Enginer",
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 17,
+    "lastName": "Рожков",
+    "firstName": "Геннадий",
+    "middleName": "Анатольевич",
+    "login": "g.rozhkov",
+    "position": "Enginer",
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 18,
+    "lastName": "Хуторной",
+    "firstName": "Николай",
+    "middleName": "Леонидович",
+    "login": "n.chutornoy",
+    "position": "Enginer",
+    "canBeAuthor": true,
+    "aliases": []
+  },
+  {
+    "id": 19,
+    "lastName": "Локтионов",
+    "firstName": "Денис",
+    "middleName": "Юрьевич",
+    "login": "d.loctionov",
+    "position": "Enginer",
+    "canBeAuthor": true,
     "aliases": []
   }
+
 ]
