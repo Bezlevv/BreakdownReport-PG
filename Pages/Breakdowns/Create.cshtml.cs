@@ -39,7 +39,7 @@ public class CreateModel : PageModel
         return Page();
     }
 
-    
+
     public async Task<IActionResult> OnPost()
     {
         Console.WriteLine("=== OnPost начался ===");
@@ -114,6 +114,8 @@ public class CreateModel : PageModel
     public bool IsIncluded(int employeeId) =>
         LaborIncluded.TryGetValue(employeeId, out var v) && v;
 
+
+    // Определение текущего пользователя
     private void LoadCurrentUser()
     {
         var winLogin = User.Identity?.IsAuthenticated == true ? User.Identity.Name : null;

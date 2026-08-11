@@ -1,8 +1,9 @@
 ﻿@page
 @model BreakdownReport.Pages.IndexModel
-
+@inject Microsoft.Extensions.Configuration.IConfiguration Config
+<!--Поломки-->
 <div style="text-align:center; margin-top:16px">
-    <img src="~/images/background.jpg" alt="Учёт поломок оборудования"
+    <img src="~/images/repairbg.jpg" alt="Учёт поломок оборудования"
          style="max-width:100%; max-height:280px; border-radius:12px" />
 </div>
 
@@ -31,3 +32,44 @@
         </div>
     </div>
 </div>
+<!--Модернизации-->
+@if (Config.GetValue<bool>("ShowModernizations", true))
+{
+<div style="text-align:center; margin-top:40px">
+    <img src="~/images/modbg.png" alt="Модернизация оборудования"
+         style="max-width:100%; max-height:280px; border-radius:12px" />
+</div>
+
+<h2 class="text-center mt-3">Модернизация оборудования</h2>
+
+<div class="d-flex flex-wrap justify-content-center gap-3 my-4">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">Новые</h5>
+            <p class="display-6 text-secondary">@Model.ModNewCount</p>
+            <a class="btn btn-outline-secondary" asp-page="/Modernizations/Index" asp-route-status="Новая">К списку</a>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">На утверждении</h5>
+            <p class="display-6 text-warning">@Model.ModPendingCount</p>
+            <a class="btn btn-outline-warning" asp-page="/Modernizations/Index" asp-route-status="Ожидает утверждения">К списку</a>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">В процессе</h5>
+            <p class="display-6 text-info">@Model.ModInProgressCount</p>
+            <a class="btn btn-info" asp-page="/Modernizations/Index" asp-route-status="В процессе">К списку</a>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title">Закрыто</h5>
+            <p class="display-6 text-success">@Model.ModDoneCount</p>
+            <a class="btn btn-success" asp-page="/Modernizations/Index" asp-route-status="Завершена">К списку</a>
+        </div>
+    </div>
+</div>
+}
