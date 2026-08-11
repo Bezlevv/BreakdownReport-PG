@@ -3,118 +3,123 @@
 
 <h2>Сводные отчёты</h2>
 
-<form method="get">
-    <label>С <input type="date" name="From" value="@Model.From?.ToString("yyyy-MM-dd")" /></label>
-    <label>По <input type="date" name="To" value="@Model.To?.ToString("yyyy-MM-dd")" /></label>
-    <button type="submit">Показать</button>
-    <a href="/Reports">Сбросить</a>
-    <a asp-page="/Reports" asp-page-handler="Export"
-       asp-route-From="@Model.From?.ToString("yyyy-MM-dd")"
-       asp-route-To="@Model.To?.ToString("yyyy-MM-dd")"><b>📥 Excel</b></a>
+<form method="get" class="row g-2 align-items-end mb-3">
+    <div class="col-auto">
+        <label class="form-label">С</label>
+        <input type="date" name="From" value="@Model.From?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+    </div>
+    <div class="col-auto">
+        <label class="form-label">По</label>
+        <input type="date" name="To" value="@Model.To?.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+    </div>
+    <div class="col-auto d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">Показать</button>
+        <a class="btn btn-sm btn-outline-secondary" href="/Reports">Сбросить</a>
+        <a class="btn btn-sm btn-outline-success"
+           asp-page="/Reports" asp-page-handler="Export"
+           asp-route-From="@Model.From?.ToString("yyyy-MM-dd")"
+           asp-route-To="@Model.To?.ToString("yyyy-MM-dd")">📥 Excel</a>
+    </div>
 </form>
 
-<h3>Общие показатели</h3>
-<table border="1" cellpadding="6">
-    <tr>
-        <th>Поломок всего</th>
-        <th>Из них вина третьих лиц</th>
-        <th>Простой линии, мин</th>
-        <th>Простой оборудования, мин</th>
-        <th>Трудозатраты, мин</th>
-    </tr>
-    <tr>
-        <td>@Model.Snapshot.TotalCount</td>
-        <td>@Model.Snapshot.ThirdPartyCount (@(Model.Snapshot.TotalCount > 0 ? Math.Round(100.0 * Model.Snapshot.ThirdPartyCount / Model.Snapshot.TotalCount) : 0)%)</td>
-        <td>@Model.Snapshot.TotalLineDowntime</td>
-        <td>@Model.Snapshot.TotalEquipmentDowntime</td>
-        <td>@Model.Snapshot.TotalLabor</td>
-    </tr>
-</table>
+<h4 class="mt-4">Общие показатели</h4>
+<div class="mb-4">
+    <span class="badge bg-secondary">Всего: @Model.Snapshot.TotalCount</span>
+    <span class="badge bg-danger">Вина третьих лиц: @Model.Snapshot.ThirdPartyCount (@(Model.Snapshot.TotalCount > 0 ? Math.Round(100.0 * Model.Snapshot.ThirdPartyCount / Model.Snapshot.TotalCount) : 0)%)</span>
+    <span class="badge bg-warning text-dark">Простой линии: @Model.Snapshot.TotalLineDowntime мин</span>
+    <span class="badge bg-info text-dark">Простой об-я: @Model.Snapshot.TotalEquipmentDowntime мин</span>
+    <span class="badge bg-primary">Трудозатраты: @Model.Snapshot.TotalLabor мин</span>
+</div>
 
-<h3>Динамика по месяцам (последние 12)</h3>
+<h4 class="mt-4">Динамика по месяцам (последние 12)</h4>
 <p class="small text-muted">Кликните по столбику — откроется список поломок за этот месяц.</p>
-<div style="max-width:900px; height:320px">
-    <canvas id="chartMonths"></canvas>
-</div>
+<div class="card p-3 mb-4"><div style="height:320px"><canvas id="chartMonths"></canvas></div></div>
 
-<h3>Топ оборудования по простою линии</h3>
-<div style="max-width:900px; height:320px">
-    <canvas id="chartEquip"></canvas>
-</div>
+<h4 class="mt-4">Топ оборудования по простою линии</h4>
+<div class="card p-3 mb-4"><div style="height:320px"><canvas id="chartEquip"></canvas></div></div>
 
-<h3>Парето: типы поломок (по простою линии)</h3>
-<div style="max-width:900px; height:320px">
-    <canvas id="chartPareto"></canvas>
-</div>
-<table border="1" cellpadding="6">
-    <tr><th>Тип</th><th>Кол-во</th><th>Простой, мин</th><th>Накопленный %</th></tr>
-    @foreach (var p in Model.Pareto)
-    {
-        <tr><td>@p.TypeName</td><td>@p.Count</td><td>@p.LineDowntime</td><td>@p.CumulativePct %</td></tr>
-    }
+<h4 class="mt-4">Парето: типы поломок (по простою линии)</h4>
+<div class="card p-3 mb-4"><div style="height:320px"><canvas id="chartPareto"></canvas></div></div>
+<table class="table table-sm table-bordered align-middle mb-4">
+    <thead><tr><th>Тип</th><th>Кол-во</th><th>Простой, мин</th><th>Накопленный %</th></tr></thead>
+    <tbody>
+        @foreach (var p in Model.Pareto)
+        {
+            <tr><td>@p.TypeName</td><td>@p.Count</td><td>@p.LineDowntime</td><td>@p.CumulativePct %</td></tr>
+        }
+    </tbody>
 </table>
 
-<h3>Надёжность оборудования (MTTR / MTBF)</h3>
-<table border="1" cellpadding="6">
-    <tr><th>Оборудование</th><th>Поломок</th><th>MTTR (средний простой, мин)</th><th>MTBF (дней между поломками)</th></tr>
-    @foreach (var r in Model.Reliability)
-    {
-        <tr><td>@r.EquipmentName</td><td>@r.Count</td><td>@r.MttrMinutes</td><td>@r.MtbfDays</td></tr>
-    }
+<h4 class="mt-4">Надёжность оборудования (MTTR / MTBF)</h4>
+<table class="table table-sm table-bordered align-middle mb-4">
+    <thead><tr><th>Оборудование</th><th>Поломок</th><th>MTTR (средний простой, мин)</th><th>MTBF (дней между поломками)</th></tr></thead>
+    <tbody>
+        @foreach (var r in Model.Reliability)
+        {
+            <tr><td>@r.EquipmentName</td><td>@r.Count</td><td>@r.MttrMinutes</td><td>@r.MtbfDays</td></tr>
+        }
+    </tbody>
 </table>
 
-<h3>Распределение по сменам</h3>
-<div style="max-width:900px; height:280px">
-    <canvas id="chartShifts"></canvas>
-</div>
+<h4 class="mt-4">Распределение по сменам</h4>
+<div class="card p-3 mb-4"><div style="height:280px"><canvas id="chartShifts"></canvas></div></div>
 
-<h3>Повторяющиеся поломки</h3>
+<h4 class="mt-4">Повторяющиеся поломки</h4>
 @if (Model.Snapshot.Repeats.Count == 0)
 {
-    <p>Повторов за период нет.</p>
+    <p class="text-muted">Повторов за период нет.</p>
 }
 else
 {
-    <table border="1" cellpadding="6">
-        <tr><th>Описание</th><th>Кол-во</th><th>Суммарный простой линии</th><th>Последний случай</th></tr>
-        @foreach (var r in Model.Snapshot.Repeats)
-        {
-            <tr>
-                <td>@r.Description</td>
-                <td><b>@r.Count</b></td>
-                <td>@r.LineDowntime мин</td>
-                <td>@r.Last.ToString("dd.MM.yyyy HH:mm")</td>
-            </tr>
-        }
+    <table class="table table-sm table-bordered align-middle mb-4">
+        <thead><tr><th>Описание</th><th>Кол-во</th><th>Суммарный простой линии</th><th>Последний случай</th></tr></thead>
+        <tbody>
+            @foreach (var r in Model.Snapshot.Repeats)
+            {
+                <tr>
+                    <td>@r.Description</td>
+                    <td><b>@r.Count</b></td>
+                    <td>@r.LineDowntime мин</td>
+                    <td>@r.Last.ToString("dd.MM.yyyy HH:mm")</td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 
-<h3>Простои по участкам</h3>
-<table border="1" cellpadding="6">
-    <tr><th>Участок</th><th>Поломок</th><th>Простой линии, мин</th><th>Простой оборудования, мин</th></tr>
-    @foreach (var s in Model.Snapshot.Areas)
-    {
-        <tr><td>@s.AreaName</td><td>@s.Count</td><td>@s.LineDowntime</td><td>@s.EquipmentDowntime</td></tr>
-    }
+<h4 class="mt-4">Простои по участкам</h4>
+<table class="table table-sm table-bordered align-middle mb-4">
+    <thead><tr><th>Участок</th><th>Поломок</th><th>Простой линии, мин</th><th>Простой оборудования, мин</th></tr></thead>
+    <tbody>
+        @foreach (var s in Model.Snapshot.Areas)
+        {
+            <tr><td>@s.AreaName</td><td>@s.Count</td><td>@s.LineDowntime</td><td>@s.EquipmentDowntime</td></tr>
+        }
+    </tbody>
 </table>
 
-<h3>Простои по оборудованию</h3>
-<table border="1" cellpadding="6">
-    <tr><th>Участок</th><th>Оборудование</th><th>Поломок</th><th>Простой линии, мин</th><th>Простой оборудования, мин</th></tr>
-    @foreach (var s in Model.Snapshot.Equipment)
-    {
-        <tr><td>@s.AreaName</td><td>@s.EquipmentName</td><td>@s.Count</td><td>@s.LineDowntime</td><td>@s.EquipmentDowntime</td></tr>
-    }
+<h4 class="mt-4">Простои по оборудованию</h4>
+<table class="table table-sm table-bordered align-middle mb-4">
+    <thead><tr><th>Участок</th><th>Оборудование</th><th>Поломок</th><th>Простой линии, мин</th><th>Простой оборудования, мин</th></tr></thead>
+    <tbody>
+        @foreach (var s in Model.Snapshot.Equipment)
+        {
+            <tr><td>@s.AreaName</td><td>@s.EquipmentName</td><td>@s.Count</td><td>@s.LineDowntime</td><td>@s.EquipmentDowntime</td></tr>
+        }
+    </tbody>
 </table>
 
-<h3>Загрузка сотрудников (ремонтная бригада)</h3>
-<table border="1" cellpadding="6">
-    <tr><th>Сотрудник</th><th>Участий в ремонтах</th><th>Суммарные трудозатраты, мин</th></tr>
-    @foreach (var s in Model.Snapshot.Employees)
-    {
-        <tr><td>@s.Name</td><td>@s.Participations</td><td>@s.Minutes</td></tr>
-    }
+<h4 class="mt-4">Загрузка сотрудников (ремонтная бригада)</h4>
+<table class="table table-sm table-bordered align-middle mb-4">
+    <thead><tr><th>Сотрудник</th><th>Участий в ремонтах</th><th>Суммарные трудозатраты, мин</th></tr></thead>
+    <tbody>
+        @foreach (var s in Model.Snapshot.Employees)
+        {
+            <tr><td>@s.Name</td><td>@s.Participations</td><td>@s.Minutes</td></tr>
+        }
+    </tbody>
 </table>
+
 @section Scripts {
     <script src="~/lib/chartjs/chart.umd.js"></script>
     <script>
@@ -141,21 +146,21 @@ else
                 ]
             },
             options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        onClick: function (evt, elements) {
-                            if (!elements || !elements.length) return;
-                            var m = monthsData[elements[0].index];
-                            window.location.href = '/Breakdowns?From=' + m.from + '&To=' + m.to;
-                        },
-                        onHover: function (evt, elements) {
-                            evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
-                        },
-                        scales: {
-                            y: { beginAtZero: true, ticks: { precision: 0 } },
-                            y1: { position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
-                        }
-                    }
+                responsive: true,
+                maintainAspectRatio: false,
+                onClick: function (evt, elements) {
+                    if (!elements || !elements.length) return;
+                    var m = monthsData[elements[0].index];
+                    window.location.href = '/Breakdowns?From=' + m.from + '&To=' + m.to;
+                },
+                onHover: function (evt, elements) {
+                    evt.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { precision: 0 } },
+                    y1: { position: 'right', beginAtZero: true, grid: { drawOnChartArea: false } }
+                }
+            }
         });
 
         new Chart(document.getElementById('chartEquip'), {
@@ -177,52 +182,52 @@ else
         });
 
         new Chart(document.getElementById('chartPareto'), {
-    data: {
-        labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.TypeName))),
-        datasets: [
-            {
-                type: 'bar',
-                label: 'Простой линии, мин',
-                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.LineDowntime))),
-                backgroundColor: 'rgba(220,53,69,0.6)'
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.TypeName))),
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Простой линии, мин',
+                        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.LineDowntime))),
+                        backgroundColor: 'rgba(220,53,69,0.6)'
+                    },
+                    {
+                        type: 'line',
+                        label: 'Накопленный %',
+                        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.CumulativePct))),
+                        borderColor: 'rgba(13,110,253,1)',
+                        yAxisID: 'y1'
+                    }
+                ]
             },
-            {
-                type: 'line',
-                label: 'Накопленный %',
-                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Pareto.Select(p => p.CumulativePct))),
-                borderColor: 'rgba(13,110,253,1)',
-                yAxisID: 'y1'
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true },
+                    y1: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false } }
+                }
             }
-        ]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: { beginAtZero: true },
-            y1: { position: 'right', min: 0, max: 100, grid: { drawOnChartArea: false } }
-        }
-    }
-});
+        });
 
-new Chart(document.getElementById('chartShifts'), {
-    type: 'bar',
-    data: {
-        labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.Name))),
-        datasets: [
-            {
-                label: 'Поломок',
-                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.Count))),
-                backgroundColor: 'rgba(13,110,253,0.6)'
+        new Chart(document.getElementById('chartShifts'), {
+            type: 'bar',
+            data: {
+                labels: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.Name))),
+                datasets: [
+                    {
+                        label: 'Поломок',
+                        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.Count))),
+                        backgroundColor: 'rgba(13,110,253,0.6)'
+                    },
+                    {
+                        label: 'Простой линии, мин',
+                        data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.LineDowntime))),
+                        backgroundColor: 'rgba(255,193,7,0.7)'
+                    }
+                ]
             },
-            {
-                label: 'Простой линии, мин',
-                data: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Shifts.Select(s => s.LineDowntime))),
-                backgroundColor: 'rgba(255,193,7,0.7)'
-            }
-        ]
-    },
-    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
-});
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
     </script>
 }
