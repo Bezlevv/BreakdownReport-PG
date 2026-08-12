@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO.Compression;
 using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace BreakdownReport.Services;
 
@@ -64,31 +65,39 @@ public sealed class BackupMaker
 		}
 	}
 
-	private void Dump(string connName, string fileName, string temp)
-	{
-		var conn = _config.GetConnectionString(connName)
-				   ?? throw new InvalidOperationException($"Нет строки подключения {connName}");
-		var pgDump = _config.GetValue<string>("PgDumpPath")
-					 ?? @"C:\Program Files\PostgreSQL\17\bin\pg_dump.exe";
+    private void Dump(string connName, string fileName, string temp)
+    {
+        var conn = _config.GetConnectionString(connName)
+                   ?? throw new InvalidOperationException($"Нет строки подключения {connName}");
+        var pgDump = _config.GetValue<string>("PgDumpPath")
+                     ?? @"C:\Program Files\PostgreSQL\17\bin\pg_dump.exe";
 
-		var psi = new ProcessStartInfo
-		{
-			FileName = pgDump,
-			UseShellExecute = false,
-			RedirectStandardError = true
-		};
-		psi.ArgumentList.Add($"--dbname={conn}");
-		psi.ArgumentList.Add("--format=plain");
-		psi.ArgumentList.Add($"--file={Path.Combine(temp, fileName)}");
+        // pg_dump (libpq) не понимает ключи Npgsql (Host/Database/Username),
+        // поэтому разбираем строку подключения и передаём параметры через переменные окружения
+        var sb = new NpgsqlConnectionStringBuilder(conn);
 
-		using var p = Process.Start(psi)
-				  ?? throw new InvalidOperationException("Не удалось запустить pg_dump");
-		p.WaitForExit();
-		if (p.ExitCode != 0)
-			throw new InvalidOperationException($"pg_dump ({connName}) ошибка: {p.StandardError.ReadToEnd()}");
-	}
+        var psi = new ProcessStartInfo
+        {
+            FileName = pgDump,
+            UseShellExecute = false,
+            RedirectStandardError = true
+        };
+        psi.ArgumentList.Add("--format=plain");
+        psi.ArgumentList.Add($"--file={Path.Combine(temp, fileName)}");
+        psi.Environment["PGHOST"] = sb.Host;
+        psi.Environment["PGPORT"] = sb.Port.ToString();
+        psi.Environment["PGDATABASE"] = sb.Database;
+        psi.Environment["PGUSER"] = sb.Username;
+        psi.Environment["PGPASSWORD"] = sb.Password;
 
-	private void CopyIfExists(string fileName, string temp)
+        using var p = Process.Start(psi)
+                  ?? throw new InvalidOperationException("Не удалось запустить pg_dump");
+        p.WaitForExit();
+        if (p.ExitCode != 0)
+            throw new InvalidOperationException($"pg_dump ({connName}) ошибка: {p.StandardError.ReadToEnd()}");
+    }
+
+    private void CopyIfExists(string fileName, string temp)
 	{
 		var srcPath = Path.Combine(_dataFolder, fileName);
 		if (File.Exists(srcPath))
