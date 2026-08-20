@@ -84,7 +84,7 @@
             <td>
                 <select asp-for="Input.ApproverId" class="form-select form-select-sm">
                     <option value="0">— выберите —</option>
-                    @foreach (var e in Model.Store.Employees)
+                    @foreach (var e in Model.Store.Employees.Where(x => x.IsEngineer || x.IsAdmin))
                     {
                         <option value="@e.Id" selected="@(Model.Input.ApproverId == e.Id ? "selected" : null)">@e.FullName</option>
                     }

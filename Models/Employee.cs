@@ -18,6 +18,6 @@ public sealed class Employee
         string.Equals(Position, "Admin", StringComparison.OrdinalIgnoreCase);
 
     public bool IsEngineer =>
-        string.Equals(Position, "ingener", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(Position, "Engineer", StringComparison.OrdinalIgnoreCase) ||
         string.Equals(Position, "инженер", StringComparison.OrdinalIgnoreCase);
 }
