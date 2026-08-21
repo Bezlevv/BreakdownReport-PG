@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Serilog;
 using BreakdownReport.Data;
 using BreakdownReport.Models;
 using BreakdownReport.Services;
@@ -9,13 +10,14 @@ using Microsoft.AspNetCore.Authorization;
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 
+var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "Data");
+Directory.CreateDirectory(dataFolder);
+
 //Логирование в файл дял сервера
 builder.Host.UseSerilog((ctx, cfg) => cfg
     .WriteTo.Console()
     .WriteTo.File(
-        Path.Combine(ctx.Configuration.GetValue<string>("DataFolder") is null
-            ? Path.Combine(ctx.HostingEnvironment.ContentRootPath, "Data")
-            : "Data", "logs", "app-.log"),
+        Path.Combine(dataFolder,"logs", "app-.log"),
         rollingInterval: RollingInterval.Day,
         retainedFileCountLimit: 31));
 builder.Services.AddRazorPages();
@@ -38,8 +40,8 @@ builder.Services.AddSingleton(_ =>
         Path.Combine(builder.Environment.ContentRootPath, "Config")));
 
 // Папка данных: вложения, журналы, бэкапы (базы теперь в PostgreSQL)
-var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "Data");
-Directory.CreateDirectory(dataFolder);
+//var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "Data");
+//Directory.CreateDirectory(dataFolder);
 
 // ----- Базы в PostgreSQL -----
 builder.Services.AddDbContext<AppDbContext>(o =>
