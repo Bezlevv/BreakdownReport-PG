@@ -1,7 +1,11 @@
 ﻿@inject Microsoft.Extensions.Configuration.IConfiguration Config
 @inject BreakdownReport.Services.DictionaryStore Store
 @{
-    var winLogin = User.Identity?.IsAuthenticated == true ? User.Identity.Name : null;
+    var authType = User.Identity?.IsAuthenticated == true ? User.Identity.AuthenticationType : null;
+    var isPasswordAuth = authType == "Password";
+
+    // Windows-логин (ba\ivanov -> ivanov) — только для NTLM-аутентификации
+    var winLogin = authType == "Negotiate" ? User.Identity?.Name : null;
     if (winLogin is not null && winLogin.Contains('\\'))
         winLogin = winLogin.Split('\\')[^1];
 
@@ -28,7 +32,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-body-tertiary border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-page="/Index">Главная</a>
-               
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between align-items-center">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" asp-page="/Breakdowns/Index">Поломки</a></li>
@@ -36,17 +40,26 @@
                         <li class="nav-item"><a class="nav-link" asp-page="/Reports">Отчёты (Поломки)</a></li>
                         @if (Config.GetValue<bool>("ShowModernizations", true))
                         {
-                        <li class="nav-item"><a class="nav-link" asp-page="/Modernizations/Index">Модернизации</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-page="/Modernizations/Reports">Отчёты (Модернизации)</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-page="/Modernizations/Index">Модернизации</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-page="/Modernizations/Reports">Отчёты (Модернизации)</a></li>
                         }
                         <li class="nav-item"><a class="nav-link" href="/Backup" title="Создать и скачать резервную копию">💾 BackUp</a></li>
                     </ul>
-                    @if (currentUser is not null && winLogin is not null)
+
+                    @if (isPasswordAuth)
                     {
+                        @* Вход по сотруднику + паролю: имя фиксировано, можно выйти *@
+                        <span class="small text-muted">👤 Сейчас работает: <b>@User.Identity!.Name</b></span>
+                        <a class="btn btn-sm btn-outline-secondary ms-2" href="/Logout">Выйти</a>
+                    }
+                    else if (currentUser is not null && winLogin is not null)
+                    {
+                        @* Вход по Windows-аккаунту: имя определилось автоматически *@
                         <span class="small text-muted">Сейчас работает: <b>@currentUser.FullName</b></span>
                     }
                     else
                     {
+                        @* Обычный режим: селект «Кто заполняет?» + кнопка парольного входа *@
                         <form method="get" action="/SetUser" class="d-flex align-items-center gap-2">
                             <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
                             <span class="small text-muted">Кто заполняет?</span>
@@ -58,7 +71,10 @@
                             </select>
                             <button type="submit" class="btn btn-sm btn-outline-secondary">Это я</button>
                         </form>
+                        <a class="btn btn-sm btn-outline-secondary ms-2" href="/Login"
+                           title="Вход по сотруднику и паролю">🔐</a>
                     }
+
                     <button id="themeToggle" type="button" class="btn btn-sm btn-outline-secondary ms-2" title="Переключить тему">🌓</button>
                 </div>
             </div>

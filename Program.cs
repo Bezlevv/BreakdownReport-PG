@@ -67,6 +67,12 @@ builder.Services.AddSingleton(_ => new AttachmentService(
 builder.Services.AddSingleton(_ => new AuditService(
     Path.Combine(dataFolder, "audit.json")));
 
+// Парольная аутентификация — запасной вход, когда Windows недоступна
+builder.Services.AddSingleton(sp => new PasswordAuthService(
+    Path.Combine(dataFolder, "users.json"),
+    sp.GetRequiredService<DictionaryStore>(),
+    builder.Configuration.GetValue<string>("DefaultPassword") ?? "romanov2026"));
+
 // Резервное копирование PostgreSQL: ручное + ежедневное в 8:00, храним 3 копии
 builder.Services.AddSingleton(sp => new BackupMaker(dataFolder, sp.GetRequiredService<IConfiguration>()));
 builder.Services.AddHostedService<DailyBackupService>();
@@ -127,6 +133,28 @@ app.Use(async (context, next) =>
     await next();
 });
 
+// Парольная сессия: валидная кука br_session = пользователь аутентифицирован
+app.Use(async (context, next) =>
+{
+    var empId = context.RequestServices.GetRequiredService<PasswordAuthService>()
+        .ValidateToken(context.Request.Cookies["br_session"]);
+    if (empId is not null)
+    {
+        var emp = context.RequestServices.GetRequiredService<DictionaryStore>()
+            .Employees.FirstOrDefault(e => e.Id == empId);
+        if (emp is not null)
+        {
+            context.User = new System.Security.Claims.ClaimsPrincipal(
+                new System.Security.Claims.ClaimsIdentity(new[]
+                {
+                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, emp.FullName),
+                    new System.Security.Claims.Claim("EmployeeId", emp.Id.ToString())
+                }, "Password"));
+        }
+    }
+    await next();
+});
+
 // Если NTLM-рукопожатие сломалось — возвращаем честный 401 вместо падения
 app.Use(async (context, next) =>
 {
@@ -140,7 +168,13 @@ app.Use(async (context, next) =>
         context.Response.Clear();
         context.Response.StatusCode = 401;
         context.Response.Headers.WWWAuthenticate = "Negotiate";
-        await context.Response.WriteAsync("Требуется вход в Windows. Обновите страницу (F5).");
+        context.Response.ContentType = "text/html; charset=utf-8";
+        await context.Response.WriteAsync(
+            "<html><body style='font-family:Segoe UI,sans-serif;padding:40px'>" +
+            "<h3>Требуется вход</h3>" +
+            "<p><a href='/Login'>Войти по сотруднику и паролю</a> &nbsp;|&nbsp; " +
+            "<a href='/'>Повторить с Windows-логином (F5)</a></p>" +
+            "</body></html>");
     }
 });
 
@@ -148,6 +182,23 @@ if (useWinAuth)
 {
     app.UseAuthentication();
     app.UseAuthorization();
+    app.Use(async (context, next) =>
+    {
+        if (context.User.Identity?.IsAuthenticated == true &&
+            context.User.Identity.AuthenticationType == "Negotiate" &&
+            string.IsNullOrEmpty(context.Request.Cookies["currentUserId"]))
+        {
+            var login = context.User.Identity.Name?.Split('\\').Last();
+            var emp = context.RequestServices.GetRequiredService<DictionaryStore>()
+                .Employees.FirstOrDefault(e =>
+                    !string.IsNullOrEmpty(e.Login) &&
+                    string.Equals(e.Login, login, StringComparison.OrdinalIgnoreCase));
+            if (emp is not null)
+                context.Response.Cookies.Append("currentUserId", emp.Id.ToString(),
+                    new CookieOptions { Expires = DateTimeOffset.Now.AddYears(1), IsEssential = true, Path = "/", SameSite = SameSiteMode.Lax });
+        }
+        await next();
+    });
 }
 
 app.MapRazorPages();
@@ -170,6 +221,14 @@ app.MapGet("/SetUser", (int userId, string? returnUrl, HttpResponse response) =>
 
     return Results.Redirect(isLocal ? returnUrl! : "/Breakdowns");
 });
+
+// Выход из парольной сессии
+app.MapGet("/Logout", (HttpResponse response) =>
+{
+    response.Cookies.Delete("br_session");
+    response.Cookies.Delete("currentUserId");
+    return Results.Redirect("/Login");
+}).AllowAnonymous();
 
 // Ручной бэкап: создаёт копию и сразу скачивает её
 app.MapGet("/Backup", (BackupMaker maker) =>

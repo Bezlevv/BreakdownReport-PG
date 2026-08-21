@@ -1,0 +1,41 @@
+@page
+@model BreakdownReport.Pages.LoginModel
+@{
+    ViewData["Title"] = "Вход в систему";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5 col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-3">🔐 Вход в систему</h4>
+
+                @if (Model.Error is not null)
+                {
+                    <div class="alert alert-danger py-2">@Model.Error</div>
+                }
+
+                <form method="post">
+                    <label class="form-label">Сотрудник</label>
+                    <select asp-for="EmployeeId" class="form-select form-select-sm mb-2">
+                        <option value="0">— выберите —</option>
+                        @foreach (var e in Model.Store.Employees)
+                        {
+                            <option value="@e.Id">@e.FullName</option>
+                        }
+                    </select>
+
+                    <label class="form-label">Пароль</label>
+                    <input asp-for="Password" type="password"
+                           class="form-control form-control-sm mb-3" />
+
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Войти</button>
+                </form>
+
+                <div class="form-text mt-2">
+                    Если вход по Windows-аккаунту у вас работает — просто обновите страницу (F5).
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
