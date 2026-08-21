@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
 
+// Папка данных: вложения, журналы, бэкапы (PostgreSQL)
 var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "Data");
 Directory.CreateDirectory(dataFolder);
 
@@ -39,9 +40,7 @@ builder.Services.AddSingleton(_ =>
     DictionaryStore.LoadFromFolder(
         Path.Combine(builder.Environment.ContentRootPath, "Config")));
 
-// Папка данных: вложения, журналы, бэкапы (PostgreSQL)
-//var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "Data");
-//Directory.CreateDirectory(dataFolder);
+
 
 // ----- Базы в PostgreSQL -----
 builder.Services.AddDbContext<AppDbContext>(o =>
