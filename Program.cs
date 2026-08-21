@@ -8,8 +8,20 @@ using Microsoft.AspNetCore.Authorization;
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var builder = WebApplication.CreateBuilder(args);
+
+//Логирование в файл дял сервера
+builder.Host.UseSerilog((ctx, cfg) => cfg
+    .WriteTo.Console()
+    .WriteTo.File(
+        Path.Combine(ctx.Configuration.GetValue<string>("DataFolder") is null
+            ? Path.Combine(ctx.HostingEnvironment.ContentRootPath, "Data")
+            : "Data", "logs", "app-.log"),
+        rollingInterval: RollingInterval.Day,
+        retainedFileCountLimit: 31));
 builder.Services.AddRazorPages();
 
+
+//Проверка авторизации UseWindowsAuth если отключено пользователь выбирается из списка ( надо будет доработаьт...)
 var useWinAuth = builder.Configuration.GetValue<bool>("UseWindowsAuth");
 if (useWinAuth)
 {
