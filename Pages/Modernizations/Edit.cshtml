@@ -143,7 +143,7 @@
                             var minutes = Model.LaborMinutes.TryGetValue(e.Id, out var m) ? m : 0;
                             <div class="col-md-4 col-sm-6 d-flex align-items-center gap-1">
                                 <input type="number" min="0" name="LaborMinutes[@e.Id]" value="@minutes"
-                                       class="form-control form-control-sm" style="max-width:90px" />
+                                       class="form-control form-control-sm" style="max-width:70px" />
                                 <span class="small">@e.FullName</span>
                             </div>
                         }
@@ -154,20 +154,23 @@
                     </div>
                 </td>
             </tr>
-            <td>
-                <div class="row g-1">
-                    @foreach (var e in Model.Store.Employees)
-                    {
-                        var isChecked = Model.AssigneeIds.Contains(e.Id);
-                        <div class="col-md-4 col-sm-6">
-                            <label class="d-flex align-items-center gap-1 small">
-                                <input type="checkbox" name="AssigneeIds" value="@e.Id" @(isChecked ? "checked" : null) />
-                                @e.FullName
-                            </label>
-                        </div>
-                    }
-                </div>
-            </td>
+            <tr>
+                <td>Назначенные сотрудники</td>
+                <td>
+                    <div class="row g-1">
+                        @foreach (var e in Model.Store.Employees)
+                        {
+                            var isChecked = Model.AssigneeIds.Contains(e.Id);
+                            <div class="col-md-4 col-sm-6">
+                                <label class="d-flex align-items-center gap-1 small">
+                                    <input type="checkbox" name="AssigneeIds" value="@e.Id" @(isChecked ? "checked" : null) />
+                                    @e.FullName
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </td>
+
         </tr>
     </table>
 
