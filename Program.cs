@@ -204,8 +204,13 @@ if (useWinAuth)
 app.MapRazorPages();
 
 // Установка текущего пользователя — работает без Razor Pages
-app.MapGet("/SetUser", (int userId, string? returnUrl, HttpResponse response) =>
+app.MapGet("/SetUser", (int userId, string? returnUrl, HttpContext context, HttpResponse response) =>
 {
+    // Парольная сессия не даёт выбирать чужое имя
+    var sessionEmp = context.User.FindFirst("EmployeeId");
+    if (sessionEmp is not null && int.TryParse(sessionEmp.Value, out var sid) && sid != userId)
+        userId = sid;
+
     response.Cookies.Append("currentUserId", userId.ToString(), new CookieOptions
     {
         Expires = DateTimeOffset.Now.AddYears(1),
