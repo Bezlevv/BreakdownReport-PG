@@ -19,7 +19,7 @@ Data/backups/
 Data/audit.json
 Data/history.json
 Data/history.json.imported
-Config/*
+Config/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
