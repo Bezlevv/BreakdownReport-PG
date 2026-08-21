@@ -35,7 +35,15 @@ appsettings.json.
   },
   "AllowedHosts": "*",
   "Urls": "http://0.0.0.0:5000",
-  "UseWindowsAuth": false
+  "UseWindowsAuth": false,
+  "ShowModernizations": true,
+  "MigrateFromSqlite": false,
+  "SqliteDataFolder": "Путь к BD SQLlite",
+  "PgDumpPath": "C:\\Program Files\\PostgreSQL\\16\\bin\\pg_dump.exe",
+  "ConnectionStrings": {
+    "Breakdowns": "Host=localhost;Port=5432;Database=breakdowns;Username=br_app;Password=Добавить пароль",
+    "Modernizations": "Host=localhost;Port=5432;Database=modernizations;Username=br_app;Password=Добавить пароль"
+  }
 }
 
 3. Пересобери Ctrl + Shift + B
