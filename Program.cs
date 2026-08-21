@@ -39,7 +39,7 @@ builder.Services.AddSingleton(_ =>
     DictionaryStore.LoadFromFolder(
         Path.Combine(builder.Environment.ContentRootPath, "Config")));
 
-// Папка данных: вложения, журналы, бэкапы (базы теперь в PostgreSQL)
+// Папка данных: вложения, журналы, бэкапы (PostgreSQL)
 //var dataFolder = Path.Combine(builder.Environment.ContentRootPath, "Data");
 //Directory.CreateDirectory(dataFolder);
 
